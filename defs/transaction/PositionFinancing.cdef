@@ -1,0 +1,23 @@
+{
+    # 
+    # The instrument of the Position that financing is being paid/collected
+    # for.
+    # 
+    instrument : (InstrumentName),
+
+    # 
+    # The amount of financing paid/collected for the Position.
+    # 
+    financing : (AccountUnits),
+
+    # 
+    # The financing paid/collected for each open Trade within the Position.
+    # 
+    openTradeFinancings : (Array[OpenTradeFinancing]),
+
+    # 
+    # The account financing mode at the time of the daily financing.
+    # 
+    accountFinancingMode : (AccountFinancingMode)
+}
+

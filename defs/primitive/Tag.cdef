@@ -1,0 +1,12 @@
+{
+    # 
+    # The type of the tag.
+    # 
+    type : (string),
+
+    # 
+    # The name of the tag.
+    # 
+    name : (string)
+}
+

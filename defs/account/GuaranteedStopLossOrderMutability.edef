@@ -1,0 +1,17 @@
+[
+    #
+    # Once a guaranteed Stop Loss Order has been created it cannot be replaced or cancelled.
+    #
+    FIXED,
+
+    #
+    # An existing guaranteed Stop Loss Order can only be replaced, not cancelled.
+    #
+    REPLACEABLE,
+
+    #
+    # Once a guaranteed Stop Loss Order has been created it can be either replaced or cancelled.
+    #
+    CANCELABLE
+]
+

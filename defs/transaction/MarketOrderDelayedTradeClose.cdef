@@ -1,0 +1,18 @@
+{
+    # 
+    # The ID of the Trade being closed
+    # 
+    tradeID : (TradeID),
+
+    # 
+    # The Client ID of the Trade being closed
+    # 
+    clientTradeID : (TradeID),
+
+    # 
+    # The Transaction ID of the DelayedTradeClosure transaction to which this
+    # Delayed Trade Close belongs to
+    # 
+    sourceTransactionID : (TransactionID)
+}
+

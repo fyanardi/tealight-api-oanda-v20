@@ -1,0 +1,12 @@
+{
+    # 
+    # The Price offered by the PriceBucket
+    # 
+    price : (PriceValue),
+
+    # 
+    # The amount of liquidity offered by the PriceBucket
+    # 
+    liquidity : (integer)
+}
+

@@ -1,0 +1,17 @@
+[
+    #
+    # The Instrument's price is tradeable.
+    #
+    TRADEABLE,
+
+    #
+    # The Instrument's price is not tradeable.
+    #
+    NON_TRADEABLE,
+
+    #
+    # The Instrument of the price is invalid or there is no valid Price for the Instrument.
+    #
+    INVALID
+]
+

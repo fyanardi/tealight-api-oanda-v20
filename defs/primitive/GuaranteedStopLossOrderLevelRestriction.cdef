@@ -1,0 +1,15 @@
+{
+    # 
+    # Applies to Trades with a guaranteed Stop Loss Order attached for the
+    # specified Instrument. This is the total allowed Trade volume that can
+    # exist within the priceRange based on the trigger prices of the guaranteed
+    # Stop Loss Orders.
+    # 
+    volume : (DecimalNumber),
+
+    # 
+    # The price range the volume applies to. This value is in price units.
+    # 
+    priceRange : (DecimalNumber)
+}
+

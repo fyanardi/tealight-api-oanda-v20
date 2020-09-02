@@ -1,0 +1,17 @@
+{
+    # 
+    # The Client ID of the Order/Trade
+    # 
+    id : (ClientID),
+
+    # 
+    # A tag associated with the Order/Trade
+    # 
+    tag : (ClientTag),
+
+    # 
+    # A comment associated with the Order/Trade
+    # 
+    comment : (ClientComment)
+}
+

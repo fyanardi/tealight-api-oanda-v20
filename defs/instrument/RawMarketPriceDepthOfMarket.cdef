@@ -1,0 +1,14 @@
+{
+    # 
+    # The list of prices and liquidity available on the Instrument's bid side
+    # of the RawMarketPrice.
+    # 
+    bids : (Array[RawMarketPriceLevel]),
+
+    # 
+    # The list of prices and liquidity available on the Instrument's ask side
+    # of the RawMarketPrice.
+    # 
+    asks : (Array[RawMarketPriceLevel])
+}
+

@@ -1,0 +1,46 @@
+{
+    # 
+    # The Transaction's Identifier.
+    # 
+    id : (TransactionID),
+
+    # 
+    # The date/time when the Transaction was created.
+    # 
+    time : (DateTime),
+
+    # 
+    # The ID of the user that initiated the creation of the Transaction.
+    # 
+    userID : (integer),
+
+    # 
+    # The ID of the Account the Transaction was created for.
+    # 
+    accountID : (AccountID),
+
+    # 
+    # The ID of the "batch" that the Transaction belongs to. Transactions in
+    # the same batch are applied to the Account simultaneously.
+    # 
+    batchID : (TransactionID),
+
+    # 
+    # The Request ID of the request which generated the transaction.
+    # 
+    requestID : (RequestID),
+
+    # 
+    # The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an
+    # MarginCallExtendTransaction.
+    # 
+    type : (TransactionType, default=MARGIN_CALL_EXTEND),
+
+    # 
+    # The number of the extensions to the Account's current margin call that
+    # have been applied. This value will be set to 1 for the first
+    # MarginCallExtend Transaction
+    # 
+    extensionNumber : (integer)
+}
+

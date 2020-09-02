@@ -1,0 +1,27 @@
+[
+    #
+    # The present value adjustment is intended to back-out the interest
+    # component of the future-date contract expiry.
+    #
+    PRESENT_VALUE,
+
+    #
+    # The dividend adjustment is intended to include the impact of the
+    # dividend payment from the equities that make up the index.
+    #
+    DIVIDEND,
+
+    #
+    # The basis adjustment is intended to offset the difference in the basis
+    # between the futures price and the index price.
+    #
+    BASIS,
+
+    #
+    # The fair value adjustment is intended to be configured manually by the
+    # Trading team to adjust the price of the CFD for any reason which is not
+    # captured by the other adjustments, and will typically be the 0.
+    #
+    FAIR_VALUE
+]
+

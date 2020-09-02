@@ -1,0 +1,7 @@
+{
+    # 
+    # The reason the Market Order was created to perform a margin closeout
+    # 
+    reason : (MarketOrderMarginCloseoutReason)
+}
+

@@ -1,0 +1,19 @@
+[
+    #
+    # The Account is not permitted to create Guaranteed Stop Loss Orders for
+    # this Instrument.
+    #
+    DISABLED,
+
+    #
+    # The Account is able, but not required to have Guaranteed Stop Loss Orders
+    # for open Trades for this Instrument.
+    #
+    ALLOWED,
+
+    #
+    # The Account is required to have Guaranteed Stop Loss Orders for all open
+    # Trades for this Instrument.
+    #
+    REQUIRED
+]

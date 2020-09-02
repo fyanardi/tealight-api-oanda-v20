@@ -1,0 +1,17 @@
+{
+    # 
+    # The Trade's ID.
+    # 
+    id : (TradeID),
+
+    # 
+    # The Trade's unrealized profit/loss.
+    # 
+    unrealizedPL : (AccountUnits),
+
+    # 
+    # Margin currently used by the Trade.
+    # 
+    marginUsed : (AccountUnits)
+}
+

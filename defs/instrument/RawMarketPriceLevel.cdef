@@ -1,0 +1,12 @@
+{
+    # 
+    # The amount of liquidity for the bucket.
+    # 
+    liquidity : (DecimalNumber),
+
+    # 
+    # The price to use for the bucket.
+    # 
+    price : (DecimalNumber)
+}
+

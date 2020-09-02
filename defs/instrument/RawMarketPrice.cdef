@@ -1,0 +1,55 @@
+{
+    # 
+    # The ID of the liquidity pool the RawMarketPrice is for.
+    # 
+    liquidityPoolID : (integer),
+
+    # 
+    # The name of the instrument the RawMarketPrice is for.
+    # 
+    instrumentName : (InstrumentName),
+
+    # 
+    # The name of the contract the RawMarketPrice is for.
+    # 
+    contractName : (string),
+
+    # 
+    # The date/time when the RawMarketPrice was created.
+    # 
+    timestamp : (DateTime),
+
+    # 
+    # The list of adjustments that were applied to the RawMarketPriceLevels of
+    # bids and asks.
+    # 
+    adjustments : (Array[PriceAdjustment]),
+
+    # 
+    # The OrderBook depth of market. The list of bids and asks in an OrderBook
+    # depth of market can be viewed as an independent bid/offer for the given
+    # number of units at the specified price. To fill an order for a given
+    # number of units the bids/asks are walked in order until the total desired
+    # units are filled. The price at each level is used for the units obtained
+    # from that level. Lists of bids in an OrderBook will always be in
+    # decreasing price order, however there is no restriction on the liquidity
+    # values for each level, they may increase, decrease or stay the same.
+    # Lists of asks in an OrderBook representation will always be in increasing
+    # price order, however there is no restriction on the liquidity values for
+    # each level, they may increase, decrease or stay the same.
+    # 
+    orderBook : (RawMarketPriceDepthOfMarket),
+
+    # 
+    # The Ladder depth of market. The list of bid and ask price-liquidity pairs
+    # in a Ladder depth of market can be viewed as a 'rung'. To determine what
+    # price to use for a given target liquidity, find the first rung that
+    # matches the target liquidity and use its price. Lists of bids in a Ladder
+    # will always be in decreasing price order and the corresponding liquidity
+    # values will always be increasing. Lists of asks in a Ladder will always
+    # be in increasing price order and the corresponding liquidity values will
+    # always be increasing.
+    # 
+    ladder : (RawMarketPriceDepthOfMarket)
+}
+

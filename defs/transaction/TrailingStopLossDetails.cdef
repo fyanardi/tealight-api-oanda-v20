@@ -1,0 +1,26 @@
+{
+    # 
+    # The distance (in price units) from the Trade’s fill price that the
+    # Trailing Stop Loss Order will be triggered at.
+    # 
+    distance : (DecimalNumber),
+
+    # 
+    # The time in force for the created Trailing Stop Loss Order. This may only
+    # be GTC, GTD or GFD.
+    # 
+    timeInForce : (TimeInForce, default=GTC),
+
+    # 
+    # The date when the Trailing Stop Loss Order will be cancelled on if
+    # timeInForce is GTD.
+    # 
+    gtdTime : (DateTime),
+
+    # 
+    # The Client Extensions to add to the Trailing Stop Loss Order when
+    # created.
+    # 
+    clientExtensions : (ClientExtensions)
+}
+

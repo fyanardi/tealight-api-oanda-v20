@@ -1,0 +1,12 @@
+{
+    # 
+    # The day of the week to charge the financing.
+    # 
+    dayOfWeek : (DayOfWeek),
+
+    # 
+    # The number of days worth of financing to be charged on dayOfWeek.
+    # 
+    daysCharged : (integer)
+}
+

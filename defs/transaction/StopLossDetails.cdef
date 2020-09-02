@@ -1,0 +1,43 @@
+{
+    # 
+    # The price that the Stop Loss Order will be triggered at. Only one of the
+    # price and distance fields may be specified.
+    # 
+    price : (PriceValue),
+
+    # 
+    # Specifies the distance (in price units) from the Trade’s open price to
+    # use as the Stop Loss Order price. Only one of the distance and price
+    # fields may be specified.
+    # 
+    distance : (DecimalNumber),
+
+    # 
+    # The time in force for the created Stop Loss Order. This may only be GTC,
+    # GTD or GFD.
+    # 
+    timeInForce : (TimeInForce, default=GTC),
+
+    # 
+    # The date when the Stop Loss Order will be cancelled on if timeInForce is
+    # GTD.
+    # 
+    gtdTime : (DateTime),
+
+    # 
+    # The Client Extensions to add to the Stop Loss Order when created.
+    # 
+    clientExtensions : (ClientExtensions),
+
+    # 
+    # Flag indicating that the price for the Stop Loss Order is guaranteed. The
+    # default value depends on the GuaranteedStopLossOrderMode of the account,
+    # if it is REQUIRED, the default will be true, for DISABLED or ENABLED the
+    # default is false.
+    # 
+    # 
+    # Deprecated: Will be removed in a future API update.
+    # 
+    guaranteed : (boolean, deprecated)
+}
+

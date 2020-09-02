@@ -1,0 +1,17 @@
+[
+    #
+    # Currency
+    #
+    CURRENCY,
+
+    #
+    # Contract For Difference
+    #
+    CFD,
+
+    #
+    # Metal
+    #
+    METAL
+]
+

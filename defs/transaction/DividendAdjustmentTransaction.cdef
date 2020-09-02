@@ -1,0 +1,65 @@
+{
+    # 
+    # The Transaction's Identifier.
+    # 
+    id : (TransactionID),
+
+    # 
+    # The date/time when the Transaction was created.
+    # 
+    time : (DateTime),
+
+    # 
+    # The ID of the user that initiated the creation of the Transaction.
+    # 
+    userID : (integer),
+
+    # 
+    # The ID of the Account the Transaction was created for.
+    # 
+    accountID : (AccountID),
+
+    # 
+    # The ID of the "batch" that the Transaction belongs to. Transactions in
+    # the same batch are applied to the Account simultaneously.
+    # 
+    batchID : (TransactionID),
+
+    # 
+    # The Request ID of the request which generated the transaction.
+    # 
+    requestID : (RequestID),
+
+    # 
+    # The Type of the Transaction. Always set to "DIVIDEND_ADJUSTMENT" for a
+    # DividendAdjustmentTransaction.
+    # 
+    type : (TransactionType, default=DIVIDEND_ADJUSTMENT),
+
+    # 
+    # The name of the instrument for the dividendAdjustment transaction
+    # 
+    instrument : (InstrumentName),
+
+    # 
+    # The total dividend adjustment amount paid or collected in the Account's
+    # home currency for the Account as a result of applying the
+    # DividendAdjustment Transaction. This is the sum of the dividend
+    # adjustments paid/collected for each OpenTradeDividendAdjustment found
+    # within the Transaction.
+    # 
+    dividendAdjustment : (AccountUnits),
+
+    # 
+    # The Account balance after applying the DividendAdjustment Transaction
+    # 
+    accountBalance : (AccountUnits),
+
+    # 
+    # The dividend adjustment payment/collection details for each open Trade,
+    # within the Account, for which a dividend adjustment is to be paid or
+    # collected.
+    # 
+    openTradeDividendAdjustments : (Array[OpenTradeDividendAdjustment])
+}
+

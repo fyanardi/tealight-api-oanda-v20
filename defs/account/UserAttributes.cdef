@@ -1,0 +1,42 @@
+{
+    # 
+    # The user's OANDA-assigned user ID.
+    # 
+    userID : (integer),
+
+    # 
+    # The user-provided username.
+    # 
+    username : (string),
+
+    # 
+    # The user's title.
+    # 
+    title : (string),
+
+    # 
+    # The user's name.
+    # 
+    name : (string),
+
+    # 
+    # The user's email address.
+    # 
+    email : (string),
+
+    # 
+    # The OANDA division the user belongs to.
+    # 
+    divisionAbbreviation : (string),
+
+    # 
+    # The user's preferred language.
+    # 
+    languageAbbreviation : (string),
+
+    # 
+    # The home currency of the Account.
+    # 
+    homeCurrency : (Currency)
+}
+

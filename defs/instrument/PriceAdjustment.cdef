@@ -1,0 +1,12 @@
+{
+    # 
+    # The type of price adjustment.
+    # 
+    type : (PriceAdjustmentType),
+
+    # 
+    # The adjustment amount applied, represented in price units.
+    # 
+    amount : (DecimalNumber)
+}
+

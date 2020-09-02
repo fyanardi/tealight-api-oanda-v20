@@ -1,0 +1,12 @@
+{
+    # 
+    # The OANDA-assigned Order ID
+    # 
+    orderID : (OrderID),
+
+    # 
+    # The client-provided client Order ID
+    # 
+    clientOrderID : (ClientID)
+}
+

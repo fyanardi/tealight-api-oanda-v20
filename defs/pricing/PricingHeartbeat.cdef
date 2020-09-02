@@ -1,0 +1,12 @@
+{
+    # 
+    # The string "HEARTBEAT"
+    # 
+    type : (string, default=HEARTBEAT),
+
+    # 
+    # The date/time when the Heartbeat was created.
+    # 
+    time : (DateTime)
+}
+

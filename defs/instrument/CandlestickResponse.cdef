@@ -1,0 +1,17 @@
+{
+    # 
+    # The instrument whose Prices are represented by the candlesticks.
+    # 
+    instrument : (InstrumentName),
+
+    # 
+    # The granularity of the candlesticks provided.
+    # 
+    granularity : (CandlestickGranularity),
+
+    # 
+    # The list of candlesticks that satisfy the request.
+    # 
+    candles : (Array[Candlestick])
+}
+

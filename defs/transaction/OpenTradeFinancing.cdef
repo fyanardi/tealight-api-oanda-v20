@@ -1,0 +1,12 @@
+{
+    # 
+    # The ID of the Trade that financing is being paid/collected for.
+    # 
+    tradeID : (TradeID),
+
+    # 
+    # The amount of financing paid/collected for the Trade.
+    # 
+    financing : (AccountUnits)
+}
+

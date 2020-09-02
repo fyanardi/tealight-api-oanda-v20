@@ -1,0 +1,48 @@
+{
+    # 
+    # The Orders created. These Orders may have been filled, cancelled or
+    # triggered in the same period.
+    # 
+    ordersCreated : (Array[Order]),
+
+    # 
+    # The Orders cancelled.
+    # 
+    ordersCancelled : (Array[Order]),
+
+    # 
+    # The Orders filled.
+    # 
+    ordersFilled : (Array[Order]),
+
+    # 
+    # The Orders triggered.
+    # 
+    ordersTriggered : (Array[Order]),
+
+    # 
+    # The Trades opened.
+    # 
+    tradesOpened : (Array[TradeSummary]),
+
+    # 
+    # The Trades reduced.
+    # 
+    tradesReduced : (Array[TradeSummary]),
+
+    # 
+    # The Trades closed.
+    # 
+    tradesClosed : (Array[TradeSummary]),
+
+    # 
+    # The Positions changed.
+    # 
+    positions : (Array[Position]),
+
+    # 
+    # The Transactions that have been generated.
+    # 
+    transactions : (Array[Transaction])
+}
+

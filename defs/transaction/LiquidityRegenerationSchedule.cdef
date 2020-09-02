@@ -1,0 +1,7 @@
+{
+    # 
+    # The steps in the Liquidity Regeneration Schedule
+    # 
+    steps : (Array[LiquidityRegenerationScheduleStep])
+}
+

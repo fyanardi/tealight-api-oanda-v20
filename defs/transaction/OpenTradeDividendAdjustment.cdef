@@ -1,0 +1,13 @@
+{
+    # 
+    # The ID of the Trade for which the dividend adjustment is to be paid or
+    # collected.
+    # 
+    tradeID : (TradeID),
+
+    # 
+    # The dividend adjustment amount to pay or collect for the Trade.
+    # 
+    dividendAdjustment : (AccountUnits)
+}
+
