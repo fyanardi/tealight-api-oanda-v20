@@ -6,11 +6,9 @@ import argparse
 # list of java reserved words that appear in some of the definition files
 JAVA_RESERVED = [ 'default', 'long', 'short' ]
 
-
 # Type map, key is the type value is a tuple of (Java type (primitive/class), Java package)
 # This dict will be extended by the newly processed definitions files, so this dict initially
 # contains definitions that are represented by primitive Java types (or String)
-# TODO: package prefix
 TYPE_MAP = {
     'string': ('String', None, False),
     'integer': ('int', None, False),
@@ -42,6 +40,12 @@ TYPE_MAP = {
 }
 
 JAVA_CLASS_INHERITANCE= {
+    'AccumulatedAccountState': [
+        'AccountSummary', 'AccountChangesState'
+    ],
+    'AccountSummary': [
+        'Account'
+    ],
     'Order': [
         'MarketOrder', 'FixedPriceOrder', 'LimitOrder', 'StopOrder', 'MarketIfTouchedOrder',
         'TakeProfitOrder', 'StopLossOrder', 'GuaranteedStopLossOrder', 'TrailingStopLossOrder'
@@ -369,7 +373,7 @@ def main(root_defs_dir, output_base_dir, package_base=''):
     for def_file in edef_files:
         oanda_type_map[def_file[2]] = (def_file[2], package_base + '.' + '.'.join(def_file[1]), True)
 
-    # insert the OANDA specific definitions into the type map
+    # insert OANDA specific definitions into the type map
     TYPE_MAP.update(oanda_type_map)
 
     for key, value in oanda_type_map.items():
@@ -384,29 +388,38 @@ def main(root_defs_dir, output_base_dir, package_base=''):
 
     package_base_paths = package_base.split('.')
 
-    for def_file in cdef_base_files:
-        package = package_base + '.' + '.'.join(def_file[1])
-        print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
-        props = parse_cdef_schema(def_file[0])
-        lines, u_t = gen_class(def_file[2], package, props)
-        unknown_types = unknown_types | u_t
-        parent_defs[def_file[2]] = [ x[0] for x in props ]
-
-        # for line in lines:
-        #     print(line)
-        save_java_class(output_base_dir, package_base_paths + def_file[1], def_file[2], lines)
-        print()
-
     # Make a dict of child -> parent so it is easier to look up
     parent_classes = {}
     for key, value in JAVA_CLASS_INHERITANCE.items():
         for child in value:
             parent_classes[child] = key
-    
+
+    print('parent_classes: {}'.format(parent_classes))
+    print()
+
+    for def_file in cdef_base_files:
+        package = package_base + '.' + '.'.join(def_file[1])
+        print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
+        props = parse_cdef_schema(def_file[0])
+        parent_defs[def_file[2]] = [ x[0] for x in props ]
+
+        # if the class itself is a child of another class, defer the actual Java class generation
+        # and add the class def into cdef_files
+        if def_file[2] in parent_classes:
+            cdef_files.append(def_file)
+            continue
+
+        lines, u_t = gen_class(def_file[2], package, props)
+        unknown_types = unknown_types | u_t
+        save_java_class(output_base_dir, package_base_paths + def_file[1], def_file[2], lines)
+        print()
+
     for def_file in cdef_files:
         package = package_base + '.' + '.'.join(def_file[1])
         print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         props = parse_cdef_schema(def_file[0])
+
+        print('in parent_classes: {}'.format(def_file[2] in parent_classes))
 
         if def_file[2] in parent_classes:
             parent = parent_classes[def_file[2]]
@@ -418,8 +431,6 @@ def main(root_defs_dir, output_base_dir, package_base=''):
 
         unknown_types = unknown_types | u_t
 
-        # for line in lines:
-        #     print(line)
         save_java_class(output_base_dir, package_base_paths + def_file[1], def_file[2], lines)
         print()
 
@@ -428,8 +439,6 @@ def main(root_defs_dir, output_base_dir, package_base=''):
         print('*** edef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         values = parse_edef_schema(def_file[0])
         lines = gen_enum(def_file[2], package, values)
-        # for line in lines:
-        #     print(line)
         save_java_class(output_base_dir, package_base_paths + def_file[1], def_file[2], lines)
         print()
 
