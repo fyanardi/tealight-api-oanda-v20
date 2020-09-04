@@ -1,6 +1,8 @@
 import re
 import os
 import argparse
+from datetime import datetime
+import time
 
 
 # list of java reserved words that appear in some of the definition files
@@ -130,7 +132,8 @@ def gen_class(name, package, props, parent=None, parent_members=None):
             lines.append("import {};".format(import_))
             imported.append(import_)
 
-    lines.append("");
+    lines.append("")
+
     if parent:
         lines.append("public class {} extends {} {{".format(name, parent))
     else:
@@ -322,6 +325,11 @@ def save_java_class(base_path, package_paths, class_name, lines):
 
     os.makedirs(path, exist_ok=True)
     with open(file_path, "w") as f:
+        now = datetime.now()
+        ts = now.strftime("%Y-%m-%d %H:%M:%S")
+        tz = now.astimezone().tzname()
+        f.write("// This Java source file was generated on {} ({})\n".format(ts, tz))
+
         # writelines does not append '\n' at the end of every line
         # f.writelines(lines)
         for line in lines:
