@@ -13,11 +13,11 @@ JAVA_RESERVED = [ 'default', 'long', 'short' ]
 # contains definitions that are represented by primitive Java types (or String)
 TYPE_MAP = {
     'string': ('String', None, False),
-    'integer': ('int', None, False),
-    'boolean': ('boolean', None, False),
-    'DecimalNumber': ('double', None, False),
+    'integer': ('Integer', None, False),
+    'boolean': ('Boolean', None, False),
+    'DecimalNumber': ('Double', None, False),
     'AccountID': ('String', None, False),
-    'AccountUnits': ('double', None, False),
+    'AccountUnits': ('Double', None, False),
     'Currency': ('Currency', 'java.util', False),
     'InstrumentName': ('String', None, False),
     'DateTime': ('ZonedDateTime', 'java.time', True),
@@ -38,7 +38,7 @@ TYPE_MAP = {
     # Pricing definitions
     'CandleSpecification': ('String', None, False),
     # Pricing Common definitions
-    'PriceValue': ('String', None, False)
+    'PriceValue': ('Double', None, False)
 }
 
 JAVA_CLASS_INHERITANCE= {
