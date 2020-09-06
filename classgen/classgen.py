@@ -458,7 +458,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='OANDA API v20 Java Class Generator.')
     parser.add_argument('--root', default='..\\defs',
             help='Root location of the definition files')
-    parser.add_argument('--output', default='..\\src',
+    parser.add_argument('--output', default='..\\src\\main\\java',
             help='Directory to write generated classes into')
     parser.add_argument('--package', required=True,
             help='Java package name of all generated classes')
