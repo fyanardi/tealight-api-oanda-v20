@@ -460,7 +460,7 @@ if __name__ == "__main__":
             help='Root location of the definition files')
     parser.add_argument('--output', default='..\\src\\main\\java',
             help='Directory to write generated classes into')
-    parser.add_argument('--package', required=True,
+    parser.add_argument('--package', default='io.tealight.api.oanda.v20.def',
             help='Java package name of all generated classes')
 
     args = parser.parse_args()
