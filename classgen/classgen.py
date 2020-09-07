@@ -52,6 +52,11 @@ JAVA_CLASS_INHERITANCE= {
         'MarketOrder', 'FixedPriceOrder', 'LimitOrder', 'StopOrder', 'MarketIfTouchedOrder',
         'TakeProfitOrder', 'StopLossOrder', 'GuaranteedStopLossOrder', 'TrailingStopLossOrder'
     ],
+    'OrderRequest': [
+         'MarketOrderRequest', 'LimitOrderRequest', 'StopOrderRequest',
+         'MarketIfTouchedOrderRequest', 'TakeProfitOrderRequest', 'StopLossOrderRequest',
+         'GuaranteedStopLossOrderRequest', 'TrailingStopLossOrderRequest'
+    ],
     'Transaction': [
         'MarketOrderTransaction', 'OrderFillTransaction', 'OrderCancelTransaction',
         'MarketOrderRejectTransaction', 'OrderCancelRejectTransaction',
@@ -230,7 +235,11 @@ def parse_cdef_schema(schema_file):
             continue
 
         # start / end definition
-        if line == "{" or line == "}":
+        if line == "{":
+            # TODO: class comments
+            comments = ""
+            continue
+        elif line == "}":
             continue
         elif line.startswith("#"):
             # don't append empty comment line

@@ -1,0 +1,9 @@
+#
+# Empty definition, serves as the base definition for MarketOrderRequest,
+# LimitOrderRequest, StopOrderRequest, MarketIfTouchedOrderRequest,
+# TakeProfitOrderRequest, StopLossOrderRequest, GuaranteedStopLossOrderRequest,
+# TrailingStopLossOrderRequest
+#
+{
+}
+
