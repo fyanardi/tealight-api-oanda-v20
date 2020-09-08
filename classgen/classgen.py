@@ -415,7 +415,9 @@ def main(root_defs_dir, output_base_dir, package_base=''):
     print()
 
     for def_file in cdef_base_files:
-        package = package_base + '.' + '.'.join(def_file[1])
+        package = package_base
+        if def_file[1]:
+            package = package + '.' + '.'.join(def_file[1])
         print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         props = parse_cdef_schema(def_file[0])
         parent_defs[def_file[2]] = [ x[0] for x in props ]
@@ -432,7 +434,9 @@ def main(root_defs_dir, output_base_dir, package_base=''):
         print()
 
     for def_file in cdef_files:
-        package = package_base + '.' + '.'.join(def_file[1])
+        package = package_base
+        if def_file[1]:
+            package = package + '.' + '.'.join(def_file[1])
         print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         props = parse_cdef_schema(def_file[0])
 
@@ -452,7 +456,9 @@ def main(root_defs_dir, output_base_dir, package_base=''):
         print()
 
     for def_file in edef_files:
-        package = package_base + '.' + '.'.join(def_file[1])
+        package = package_base
+        if def_file[1]:
+            package = package + '.' + '.'.join(def_file[1])
         print('*** edef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         values = parse_edef_schema(def_file[0])
         lines = gen_enum(def_file[2], package, values)
