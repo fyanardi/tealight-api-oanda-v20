@@ -1,8 +1,8 @@
-// This Java source file was generated on 2020-09-07 14:35:56 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:58 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
 
-import java.time.ZonedDateTime;
 import io.tealight.api.oanda.v20.def.transaction.ClientExtensions;
+import java.time.ZonedDateTime;
 
 public class TrailingStopLossOrderRequest extends OrderRequest {
     private OrderType type = OrderType.TRAILING_STOP_LOSS;

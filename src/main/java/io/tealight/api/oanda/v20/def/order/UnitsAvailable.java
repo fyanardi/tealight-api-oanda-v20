@@ -1,6 +1,5 @@
-// This Java source file was generated on 2020-09-06 13:40:51 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:58 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
-
 
 public class UnitsAvailable {
     private UnitsAvailableDetails _default;

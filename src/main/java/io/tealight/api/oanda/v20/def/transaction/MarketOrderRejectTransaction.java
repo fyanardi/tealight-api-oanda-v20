@@ -1,8 +1,8 @@
-// This Java source file was generated on 2020-09-06 13:40:50 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.transaction;
 
-import io.tealight.api.oanda.v20.def.order.TimeInForce;
 import io.tealight.api.oanda.v20.def.order.OrderPositionFill;
+import io.tealight.api.oanda.v20.def.order.TimeInForce;
 
 public class MarketOrderRejectTransaction extends Transaction {
     private TransactionType type = TransactionType.MARKET_ORDER_REJECT;

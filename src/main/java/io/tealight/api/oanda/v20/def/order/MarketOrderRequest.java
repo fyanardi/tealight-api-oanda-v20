@@ -1,10 +1,10 @@
-// This Java source file was generated on 2020-09-07 14:35:56 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
 
 import io.tealight.api.oanda.v20.def.transaction.ClientExtensions;
-import io.tealight.api.oanda.v20.def.transaction.TakeProfitDetails;
-import io.tealight.api.oanda.v20.def.transaction.StopLossDetails;
 import io.tealight.api.oanda.v20.def.transaction.GuaranteedStopLossDetails;
+import io.tealight.api.oanda.v20.def.transaction.StopLossDetails;
+import io.tealight.api.oanda.v20.def.transaction.TakeProfitDetails;
 import io.tealight.api.oanda.v20.def.transaction.TrailingStopLossDetails;
 
 public class MarketOrderRequest extends OrderRequest {

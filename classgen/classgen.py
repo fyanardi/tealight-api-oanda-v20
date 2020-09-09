@@ -134,7 +134,6 @@ def gen_class(name, package, props, parent=None, parent_members=None):
     imported = []
     if imports:
         # TODO: sort imports
-        lines.append("")
         for i in imports:
             import_ = '{}.{}'.format(i[0], i[1])
             if import_ in imported:
@@ -143,8 +142,14 @@ def gen_class(name, package, props, parent=None, parent_members=None):
             if i[0] == package:
                 continue
             
-            lines.append("import {};".format(import_))
             imported.append(import_)
+
+    imported.sort()
+
+    if imported:
+        lines.append("")
+        for i in imported:
+            lines.append("import {};".format(i))
 
     lines.append("")
 
@@ -326,11 +331,6 @@ def parse_edef_schema(schema_file):
         print("value=[{}] comments=[{}]".format(value[0], value[1]))
 
     return values
-
-
-def to_upper_camel(string):
-    words = string.split('_')
-    return ''.join(x.capitalize() for x in words)
 
 
 def gen_package(package_base, sub_package):

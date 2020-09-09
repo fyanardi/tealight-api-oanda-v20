@@ -1,15 +1,15 @@
-// This Java source file was generated on 2020-09-06 13:40:51 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
 
-import io.tealight.api.oanda.v20.def.transaction.MarketOrderTradeClose;
-import io.tealight.api.oanda.v20.def.transaction.MarketOrderPositionCloseout;
-import io.tealight.api.oanda.v20.def.transaction.MarketOrderMarginCloseout;
-import io.tealight.api.oanda.v20.def.transaction.MarketOrderDelayedTradeClose;
-import io.tealight.api.oanda.v20.def.transaction.TakeProfitDetails;
-import io.tealight.api.oanda.v20.def.transaction.StopLossDetails;
-import io.tealight.api.oanda.v20.def.transaction.GuaranteedStopLossDetails;
-import io.tealight.api.oanda.v20.def.transaction.TrailingStopLossDetails;
 import io.tealight.api.oanda.v20.def.transaction.ClientExtensions;
+import io.tealight.api.oanda.v20.def.transaction.GuaranteedStopLossDetails;
+import io.tealight.api.oanda.v20.def.transaction.MarketOrderDelayedTradeClose;
+import io.tealight.api.oanda.v20.def.transaction.MarketOrderMarginCloseout;
+import io.tealight.api.oanda.v20.def.transaction.MarketOrderPositionCloseout;
+import io.tealight.api.oanda.v20.def.transaction.MarketOrderTradeClose;
+import io.tealight.api.oanda.v20.def.transaction.StopLossDetails;
+import io.tealight.api.oanda.v20.def.transaction.TakeProfitDetails;
+import io.tealight.api.oanda.v20.def.transaction.TrailingStopLossDetails;
 import java.time.ZonedDateTime;
 
 public class MarketOrder extends Order {

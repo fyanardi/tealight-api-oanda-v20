@@ -1,9 +1,9 @@
-// This Java source file was generated on 2020-09-06 13:40:52 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:58 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.account;
 
 import io.tealight.api.oanda.v20.def.order.DynamicOrderState;
-import io.tealight.api.oanda.v20.def.trade.CalculatedTradeState;
 import io.tealight.api.oanda.v20.def.position.CalculatedPositionState;
+import io.tealight.api.oanda.v20.def.trade.CalculatedTradeState;
 
 public class AccountChangesState extends AccumulatedAccountState {
     private Double unrealizedPL;

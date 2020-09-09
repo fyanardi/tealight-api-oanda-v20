@@ -1,6 +1,5 @@
-// This Java source file was generated on 2020-09-06 13:40:49 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.transaction;
-
 
 public class DividendAdjustmentTransaction extends Transaction {
     private TransactionType type = TransactionType.DIVIDEND_ADJUSTMENT;

@@ -1,9 +1,9 @@
-// This Java source file was generated on 2020-09-09 09:48:07 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
 
-import io.tealight.api.oanda.v20.def.transaction.Transaction;
-import io.tealight.api.oanda.v20.def.transaction.OrderFillTransaction;
 import io.tealight.api.oanda.v20.def.transaction.OrderCancelTransaction;
+import io.tealight.api.oanda.v20.def.transaction.OrderFillTransaction;
+import io.tealight.api.oanda.v20.def.transaction.Transaction;
 
 public class OrderResponse {
     private Transaction orderCreateTransaction;
