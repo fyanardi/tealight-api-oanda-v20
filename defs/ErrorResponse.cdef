@@ -1,0 +1,7 @@
+{
+    # 
+    # The human-readable description of the error that has occurred.
+    # 
+    errorMessage : (string, required)
+}
+

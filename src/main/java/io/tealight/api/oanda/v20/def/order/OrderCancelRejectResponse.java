@@ -1,22 +1,12 @@
-// This Java source file was generated on 2020-09-07 14:35:56 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-09-09 10:23:45 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.order;
 
-import io.tealight.api.oanda.v20.def.transaction.Transaction;
+import io.tealight.api.oanda.v20.def.ErrorResponse;
 
-public class OrderRejectedResponse {
-    private Transaction orderRejectTransaction;
+public class OrderCancelRejectResponse extends ErrorResponse {
     private String[] relatedTransactionIDs;
     private String lastTransactionID;
     private String errorCode;
-    private String errorMessage;
-
-    public Transaction getOrderRejectTransaction() {
-        return orderRejectTransaction;
-    }
-
-    public void setOrderRejectTransaction(Transaction orderRejectTransaction) {
-        this.orderRejectTransaction = orderRejectTransaction;
-    }
 
     public String[] getRelatedTransactionIDs() {
         return relatedTransactionIDs;
@@ -40,14 +30,6 @@ public class OrderRejectedResponse {
 
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
     }
 
 }

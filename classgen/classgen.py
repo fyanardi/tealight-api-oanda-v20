@@ -74,6 +74,9 @@ JAVA_CLASS_INHERITANCE= {
         'MarginCallEnterTransaction', 'MarginCallExtendTransaction', 'MarginCallExitTransaction',
         'DelayedTradeClosureTransaction', 'DailyFinancingTransaction',
         'DividendAdjustmentTransaction', 'ResetResettablePLTransaction'
+    ],
+    'ErrorResponse': [
+        'OrderRejectResponse', 'OrderCancelRejectResponse'
     ]
 }
 
@@ -118,6 +121,12 @@ def gen_class(name, package, props, parent=None, parent_members=None):
         else:
             # prop[2] is the default value (if any)
             members.append((prop[0], m_type[0], prop[2]))
+
+    if parent:
+        # Need to import parent class if it is in different package
+        parent_package = TYPE_MAP[parent][1]
+        if parent_package != package:
+            imports.append((parent_package, parent))
 
     lines = []
     lines.append("package {};".format(package))
@@ -324,6 +333,17 @@ def to_upper_camel(string):
     return ''.join(x.capitalize() for x in words)
 
 
+def gen_package(package_base, sub_package):
+    """
+    package_base: base/common package
+    sub_package: sub package paths as list (not string)
+    """
+    package = package_base
+    if sub_package:
+        package = package + '.' + '.'.join(sub_package)
+    return package
+
+
 def save_java_class(base_path, package_paths, class_name, lines):
     """
     package_paths: list of paths that make up the package, e.g: ['oanda', 'account']
@@ -384,11 +404,11 @@ def main(root_defs_dir, output_base_dir, package_base=''):
 
     oanda_type_map = {}
     for def_file in cdef_base_files:
-        oanda_type_map[def_file[2]] = (def_file[2], package_base + '.' + '.'.join(def_file[1]), False)
+        oanda_type_map[def_file[2]] = (def_file[2], gen_package(package_base, def_file[1]), False)
     for def_file in cdef_files:
-        oanda_type_map[def_file[2]] = (def_file[2], package_base + '.' + '.'.join(def_file[1]), False)
+        oanda_type_map[def_file[2]] = (def_file[2], gen_package(package_base, def_file[1]), False)
     for def_file in edef_files:
-        oanda_type_map[def_file[2]] = (def_file[2], package_base + '.' + '.'.join(def_file[1]), True)
+        oanda_type_map[def_file[2]] = (def_file[2], gen_package(package_base, def_file[1]), True)
 
     # insert OANDA specific definitions into the type map
     TYPE_MAP.update(oanda_type_map)
@@ -415,9 +435,7 @@ def main(root_defs_dir, output_base_dir, package_base=''):
     print()
 
     for def_file in cdef_base_files:
-        package = package_base
-        if def_file[1]:
-            package = package + '.' + '.'.join(def_file[1])
+        package = gen_package(package_base, def_file[1])
         print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         props = parse_cdef_schema(def_file[0])
         parent_defs[def_file[2]] = [ x[0] for x in props ]
@@ -434,9 +452,7 @@ def main(root_defs_dir, output_base_dir, package_base=''):
         print()
 
     for def_file in cdef_files:
-        package = package_base
-        if def_file[1]:
-            package = package + '.' + '.'.join(def_file[1])
+        package = gen_package(package_base, def_file[1])
         print('*** cdef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         props = parse_cdef_schema(def_file[0])
 
@@ -456,9 +472,7 @@ def main(root_defs_dir, output_base_dir, package_base=''):
         print()
 
     for def_file in edef_files:
-        package = package_base
-        if def_file[1]:
-            package = package + '.' + '.'.join(def_file[1])
+        package = gen_package(package_base, def_file[1])
         print('*** edef_file={} package={} class={} ***'.format(def_file[0], package, def_file[2]))
         values = parse_edef_schema(def_file[0])
         lines = gen_enum(def_file[2], package, values)
