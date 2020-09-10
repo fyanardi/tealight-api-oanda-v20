@@ -13,13 +13,17 @@ import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Map;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import io.tealight.api.oanda.v20.adapter.OrderAdapter;
 import io.tealight.api.oanda.v20.adapter.PrimitiveGsonAdapters;
+import io.tealight.api.oanda.v20.def.ErrorResponse;
+import io.tealight.api.oanda.v20.def.order.Order;
 import io.tealight.api.oanda.v20.def.primitive.AcceptDatetimeFormat;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
@@ -46,12 +50,15 @@ public class DefaultFxTradeContext implements FxTradeContext {
         this.token = token;
 
         this.fxTradeUrl = fxTradeType == FxTradeType.FX_TRADE ? FXTRADE_URL : FXPRACTICE_URL;
-        this.gson = PrimitiveGsonAdapters.newGsonBuilder().create();
+        this.gson = PrimitiveGsonAdapters.newGsonBuilder()
+                .registerTypeAdapter(Order.class, new OrderAdapter()).create();
     }
 
     @Override
     public <T> T requestEndpoint(String endpoint, Class<T> responseType, HttpMethod httpMethod, 
-            Map<String, String> queries, Object request) throws FxTradeException, IOException {
+            Map<String, String> queries, Object request,
+            IntFunction<Class<? extends ErrorResponse>> errorResponseFunction) 
+                    throws FxTradeException, IOException {
         URI url;
         try {
             if (queries != null) {
@@ -92,20 +99,31 @@ public class DefaultFxTradeContext implements FxTradeContext {
 
             HttpResponse<String> response = httpClient.send(httpRequestBuilder.build(),
                     BodyHandlers.ofString());
-            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
-                System.out.println(response.body());
-                return gson.fromJson(response.body(), responseType);
+            String responseBody = response.body();
+            if (statusResponseSuccess(response.statusCode())) {
+                // System.out.println(responseBody);
+                return gson.fromJson(responseBody, responseType);
             }
             else {
-                String errorMessage = null;
-                JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
-                if (jsonObject.has("errorMessage")) {
-                    errorMessage = jsonObject.get("errorMessage").getAsString();
+                Class<? extends ErrorResponse> errorResponseClass =
+                        errorResponseFunction.apply(response.statusCode());
+                ErrorResponse errorResponse = null;
+                if (errorResponseClass != null) {
+                    errorResponse = gson.fromJson(responseBody, errorResponseClass);
                 }
-                else if (jsonObject.has("rejectReason")) {
-                    errorMessage = jsonObject.get("rejectReason").getAsString();
+                else {
+                    errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
                 }
-                throw FxTradeException.fromHttpResponseCode(response.statusCode(), errorMessage);
+
+                // If there is no error message, try to extract from 'rejectReason'
+                if (errorResponse.getErrorMessage() == null) {
+                    JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+                    if (jsonObject.has("rejectReason")) {
+                        errorResponse.setErrorMessage(jsonObject.get("rejectReason").getAsString());
+                    }
+                }
+
+                throw FxTradeException.fromHttpResponseCode(response.statusCode(), errorResponse);
             }
         }
         catch (IOException e) {
@@ -120,6 +138,11 @@ public class DefaultFxTradeContext implements FxTradeContext {
     @Override
     public synchronized <T> T requestEndpoint(String endpoint, Class<T> responseType)
             throws FxTradeException, IOException {
-        return requestEndpoint(endpoint, responseType, HttpMethod.GET, null, null);
+        return requestEndpoint(endpoint, responseType, HttpMethod.GET, null, null, null);
+    }
+
+    private boolean statusResponseSuccess(int httpResponseCode) {
+        return httpResponseCode >= HttpURLConnection.HTTP_OK &&
+                httpResponseCode < HttpURLConnection.HTTP_MULT_CHOICE;
     }
 }

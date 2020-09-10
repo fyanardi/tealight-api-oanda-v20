@@ -1,0 +1,30 @@
+{
+    # 
+    # The Transaction that rejected the modification of the Client Extensions
+    # for the Order. Only present if the Account exists.
+    # 
+    orderClientExtensionsModifyRejectTransaction : (OrderClientExtensionsModifyRejectTransaction),
+
+    # 
+    # The ID of the most recent Transaction created for the Account. Only
+    # present if the Account exists.
+    # 
+    lastTransactionID : (TransactionID),
+
+    # 
+    # The IDs of all Transactions that were created while satisfying the
+    # request. Only present if the Account exists.
+    # 
+    relatedTransactionIDs : (Array[TransactionID]),
+
+    # 
+    # The code of the error that has occurred. This field may not be returned
+    # for some errors.
+    # 
+    errorCode : (string),
+
+    # 
+    # The human-readable description of the error that has occurred.
+    # 
+    errorMessage : (string, required)
+}

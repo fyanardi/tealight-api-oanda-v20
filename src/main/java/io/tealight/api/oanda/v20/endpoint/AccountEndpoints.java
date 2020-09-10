@@ -77,7 +77,7 @@ public class AccountEndpoints {
         }
         String endpoint = String.format(ACCOUNT_INSTRUMENTS, accountId);
         return fxTradeContext.requestEndpoint(endpoint, AccountInstrumentsResponse.class,
-                HttpMethod.GET, queries, null);
+                HttpMethod.GET, queries, null, null);
     }
 
     public AccountConfigurationResponse setAccountConfiguration(String accountId,
@@ -88,7 +88,7 @@ public class AccountEndpoints {
         String endpoint = String.format(ACCOUNT_CONFIGURATION, accountId);
 
         return fxTradeContext.requestEndpoint(endpoint, AccountConfigurationResponse.class,
-                HttpMethod.PATCH, null, accountConfigurationRequest);
+                HttpMethod.PATCH, null, accountConfigurationRequest, null);
     }
 
     public AccountChangesResponse getAccountChanges(String accountId, String sinceTransactionId) 
@@ -101,7 +101,7 @@ public class AccountEndpoints {
 
         String endpoint = String.format(ACCOUNT_CHANGES, accountId);
         return fxTradeContext.requestEndpoint(endpoint, AccountChangesResponse.class,
-                HttpMethod.GET, queries, null);
+                HttpMethod.GET, queries, null, null);
     }
 
 }

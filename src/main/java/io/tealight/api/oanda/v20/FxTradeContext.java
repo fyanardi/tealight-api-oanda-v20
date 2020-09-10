@@ -2,7 +2,9 @@ package io.tealight.api.oanda.v20;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.IntFunction;
 
+import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
 
@@ -25,12 +27,16 @@ public interface FxTradeContext {
      * @param httpMethod HTTP method to be used for the request to the fxTrade server
      * @param queries a map of query parameters to be appended to the HTTP request as query string
      * @param request request object that will be sent in the request body 
+     * @param errorResponseFunction an optional function that returns the type of the error response
+     *      depending on the http response code returned by the server
      * @return the response received from the fxTrade endpoint
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
     public <T> T requestEndpoint(String endpoint, Class<T> responseType, HttpMethod httpMethod,
-            Map<String, String> queries, Object request) throws FxTradeException, IOException;
+            Map<String, String> queries, Object request,
+            IntFunction<Class<? extends ErrorResponse>> errorResponseFunction)
+                    throws FxTradeException, IOException;
 
     /**
      * Overloaded method. Make a request to an OANDA fxTrade endpoint with GET HTTP method, no
@@ -45,6 +51,5 @@ public interface FxTradeContext {
      */
     public <T> T requestEndpoint(String endpoint, Class<T> responseType)
             throws FxTradeException, IOException;
-
 
 }

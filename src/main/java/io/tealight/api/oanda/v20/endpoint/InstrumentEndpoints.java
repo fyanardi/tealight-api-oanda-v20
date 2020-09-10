@@ -51,7 +51,7 @@ public class InstrumentEndpoints {
 
         Map<String, String> query = FxTradeEndpointsUtils.queryFromRequestObject(candlesRequest);
         return fxTradeContext.requestEndpoint(endpoint, CandlestickResponse.class, HttpMethod.GET,
-                query, null);
+                query, null, null);
     }
 
     public OrderBook getOrderBook(String instrument, ZonedDateTime time)
@@ -65,7 +65,8 @@ public class InstrumentEndpoints {
         }
 
         String endpoint = String.format(ORDER_BOOK, instrument);
-        return fxTradeContext.requestEndpoint(endpoint, OrderBook.class, HttpMethod.GET, query, null);
+        return fxTradeContext.requestEndpoint(endpoint, OrderBook.class, HttpMethod.GET, query,
+                null, null);
     }
 
     public PositionBook getPositionBook(String instrument, ZonedDateTime time)
@@ -79,6 +80,7 @@ public class InstrumentEndpoints {
         }
 
         String endpoint = String.format(POSITION_BOOK, instrument);
-        return fxTradeContext.requestEndpoint(endpoint, PositionBook.class, HttpMethod.GET, query, null);
+        return fxTradeContext.requestEndpoint(endpoint, PositionBook.class, HttpMethod.GET, query,
+                null, null);
     }
 }
