@@ -21,7 +21,8 @@ import io.tealight.api.oanda.v20.def.order.TakeProfitOrder;
 import io.tealight.api.oanda.v20.def.order.TrailingStopLossOrder;
 
 /**
- * GSON custom deserializer to deserialize order into specific Order subclass
+ * GSON custom deserializer to deserialize an order json object into specific Order subclass
+ * instance.
  *
  * @author Fredy Yanardi
  *
@@ -38,9 +39,6 @@ public class OrderAdapter implements JsonDeserializer<Order> {
         }
 
         if (!jsonElement.getAsJsonObject().has("type")) {
-            if (gson == null) {
-                gson = PrimitiveGsonAdapters.newGsonBuilder().create();
-            }
             return getJson().fromJson(jsonElement, Order.class);
         }
 
