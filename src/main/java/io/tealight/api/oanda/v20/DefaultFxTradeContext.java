@@ -22,9 +22,11 @@ import com.google.gson.JsonParser;
 
 import io.tealight.api.oanda.v20.adapter.OrderAdapter;
 import io.tealight.api.oanda.v20.adapter.PrimitiveGsonAdapters;
+import io.tealight.api.oanda.v20.adapter.TransactionAdapter;
 import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.def.order.Order;
 import io.tealight.api.oanda.v20.def.primitive.AcceptDatetimeFormat;
+import io.tealight.api.oanda.v20.def.transaction.Transaction;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
 
@@ -51,7 +53,9 @@ public class DefaultFxTradeContext implements FxTradeContext {
 
         this.fxTradeUrl = fxTradeType == FxTradeType.FX_TRADE ? FXTRADE_URL : FXPRACTICE_URL;
         this.gson = PrimitiveGsonAdapters.newGsonBuilder()
-                .registerTypeAdapter(Order.class, new OrderAdapter()).create();
+                .registerTypeAdapter(Order.class, new OrderAdapter())
+                .registerTypeAdapter(Transaction.class, new TransactionAdapter())
+                .create();
     }
 
     @Override
@@ -105,13 +109,16 @@ public class DefaultFxTradeContext implements FxTradeContext {
                 return gson.fromJson(responseBody, responseType);
             }
             else {
-                Class<? extends ErrorResponse> errorResponseClass =
-                        errorResponseFunction.apply(response.statusCode());
                 ErrorResponse errorResponse = null;
-                if (errorResponseClass != null) {
-                    errorResponse = gson.fromJson(responseBody, errorResponseClass);
+                if (errorResponseFunction != null) {
+                    Class<? extends ErrorResponse> errorResponseClass =
+                            errorResponseFunction.apply(response.statusCode());
+                    if (errorResponseClass != null) {
+                        errorResponse = gson.fromJson(responseBody, errorResponseClass);
+                    }
                 }
-                else {
+
+                if (errorResponse == null) {
                     errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
                 }
 

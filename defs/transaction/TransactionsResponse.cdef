@@ -1,0 +1,11 @@
+{
+    # 
+    # The list of Transactions that satisfy the request.
+    # 
+    transactions : (Array[Transaction]),
+
+    # 
+    # The ID of the most recent Transaction created for the Account
+    # 
+    lastTransactionID : (TransactionID)
+}
