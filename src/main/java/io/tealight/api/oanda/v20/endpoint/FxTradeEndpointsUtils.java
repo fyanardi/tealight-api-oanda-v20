@@ -22,6 +22,7 @@ public class FxTradeEndpointsUtils {
 
         for (Field field : request.getClass().getDeclaredFields()) {
             String name = field.getName();
+            Class<?> type = field.getType();
             Object value = null;
             try {
                 field.setAccessible(true);
@@ -32,7 +33,13 @@ public class FxTradeEndpointsUtils {
             }
 
             if (value != null) {
-                query.put(name, value.toString());
+                // Convert to UTC-based ZonedDateTime
+                if (type == ZonedDateTime.class) {
+                    query.put(name, toUtcZonedDateTime((ZonedDateTime) value).toString());
+                }
+                else {
+                    query.put(name, value.toString());
+                }
             }
         }
 
