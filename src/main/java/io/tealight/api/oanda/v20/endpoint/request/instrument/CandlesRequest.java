@@ -1,6 +1,6 @@
 package io.tealight.api.oanda.v20.endpoint.request.instrument;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import io.tealight.api.oanda.v20.def.instrument.CandlestickGranularity;
 import io.tealight.api.oanda.v20.def.instrument.WeeklyAlignment;
@@ -31,13 +31,13 @@ public class CandlesRequest {
      * The start of the time range to fetch candlesticks for.
      * type: DateTime
      */
-    private OffsetDateTime from;
+    private ZonedDateTime from;
 
     /**
      * The end of the time range to fetch candlesticks for.
      * type: DateTime
      */
-    private OffsetDateTime to;
+    private ZonedDateTime to;
 
     /**
      * A flag that controls whether the candlestick is "smoothed" or not. A smoothed candlestick
@@ -101,19 +101,19 @@ public class CandlesRequest {
         this.count = count;
     }
 
-    public OffsetDateTime getFrom() {
+    public ZonedDateTime getFrom() {
         return from;
     }
 
-    public void setFrom(OffsetDateTime from) {
+    public void setFrom(ZonedDateTime from) {
         this.from = from;
     }
 
-    public OffsetDateTime getTo() {
+    public ZonedDateTime getTo() {
         return to;
     }
 
-    public void setTo(OffsetDateTime to) {
+    public void setTo(ZonedDateTime to) {
         this.to = to;
     }
 
