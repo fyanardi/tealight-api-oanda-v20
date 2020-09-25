@@ -45,9 +45,9 @@ public class TransactionEndpoints {
      * 
      * The transactions are returned in terms of 'pages', every pages is a link to the get
      * transactions by idrange, for example: 
-     * "https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/transactions/idrange?from=6409&to=6412"
+     * {@code https://api-fxtrade.oanda.com/v3/accounts/<ACCOUNT>/transactions/idrange?from=6409&to=6412"}
      * <p>
-     * To get transactions within every page, extract start & end of every page by calling
+     * To get transactions within every page, extract start &amp; end of every page by calling
      * {@link #getIdRangeFromPageUrl(String)} and then call
      * {@link #getTransactionsInRange(String, String, String, EnumSet)} to get the details of
      * all transactions in the page.
@@ -92,7 +92,7 @@ public class TransactionEndpoints {
      * Get the details of a single Account Transaction.
      * 
      * @param accountId Account Identifier [required]
-     * @param transactionID A Transaction ID [required]
+     * @param transactionId A Transaction ID [required]
      * @return details of the transaction specified
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
@@ -165,11 +165,12 @@ public class TransactionEndpoints {
 
     /**
      * Extract the 'from' and 'to' from a transaction page returned by
-     * {@link #getTransactions(String, ZonedDateTime, ZonedDateTime, int, EnumSet)} API 
+     * {@link #getTransactions(String, ZonedDateTime, ZonedDateTime, Integer, EnumSet)} API
      *
      * @param page the page URL whose 'from' and 'to' are to be extracted
-     * @return 'from' and 'to' as Map.Entry<String, String> instance or null if there is an error
+     * @return 'from' and 'to' as {@code Map.Entry<String, String>} instance or null if there is an error
      *      in extracting the information from the page
+     * @throws MalformedURLException if the url passed in is invalid / malformed
      */
     public static Map.Entry<String, String> getIdRangeFromPageUrl(String page)
             throws MalformedURLException {

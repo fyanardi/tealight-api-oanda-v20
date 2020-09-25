@@ -24,21 +24,9 @@ public class FxTradeException extends Exception {
     private final int httpResponseCode;
 
     /**
-     * Additional error message string returned by the fxTrade server detailing the error
-     */
-    // private final String errorMessage;
-
-    /**
      * Additional error response object returned by the fxTrade server detailing the error
      */
     private final ErrorResponse errorResponse;
-
-    /* protected FxTradeException(int httpResponseCode, String errorMessage) {
-        super(errorMessage);
-
-        this.httpResponseCode = httpResponseCode;
-        this.errorMessage = errorMessage;
-    } */
 
     protected FxTradeException(int httpResponseCode, ErrorResponse errorResponse) {
         super(errorResponse.getErrorMessage());
@@ -74,34 +62,7 @@ public class FxTradeException extends Exception {
      * is not recognized
      *
      * @param httpResponseCode HTTP response code returned by fxTrade server
-     * @param errorMessage additional error message information returned by the fxTrade server
-     * @return an instance of FxTradeException corresponding to the HTTP response code
-     */
-    /* public static FxTradeException fromHttpResponseCode(int httpResponseCode, String errorMessage) {
-        switch (httpResponseCode) {
-        case HttpURLConnection.HTTP_BAD_REQUEST:
-            return new BadRequestException(errorMessage);
-        case HttpURLConnection.HTTP_FORBIDDEN:
-            return new ForbiddenException(errorMessage);
-        case HttpURLConnection.HTTP_BAD_METHOD:
-            return new MethodNotAllowedException(errorMessage);
-        case HttpURLConnection.HTTP_NOT_FOUND:
-            return new NotFoundException(errorMessage);
-        case HttpURLConnection.HTTP_UNAUTHORIZED:
-            return new Unauthorized(errorMessage);
-        default:
-            return new FxTradeException(httpResponseCode, errorMessage);
-        }
-    } */
-
-    /**
-     * Create an instance of FxTradeException based on the HTTP response code. Return one of the
-     * subclass of FxTradeException instance if the HTTP response code is one of the documented
-     * HTTP response code, or an instance of generic FxTradeException if the HTTP respose code
-     * is not recognized
-     *
-     * @param httpResponseCode HTTP response code returned by fxTrade server
-     * @param errorMessage additional error message information returned by the fxTrade server
+     * @param errorResponse error response returned by the FxTrade servre
      * @return an instance of FxTradeException corresponding to the HTTP response code
      */
     public static FxTradeException fromHttpResponseCode(int httpResponseCode, ErrorResponse errorResponse) {

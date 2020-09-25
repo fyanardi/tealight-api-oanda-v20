@@ -40,8 +40,8 @@ public class InstrumentEndpoints {
      * @param instrument instrument whose candlestick data to be fetched
      * @param candlesRequest fetch candlestick data request
      * @return candlestick response for the specified instrument according to the request data
-     * @throws FxTradeException
-     * @throws IOException
+     * @throws FxTradeException thrown if the request to the fxTrade server is not successful
+     * @throws IOException thrown if I/O Exception occurs during the request
      */
     public CandlestickResponse getCandles(String instrument, CandlesRequest candlesRequest)
             throws FxTradeException, IOException {
