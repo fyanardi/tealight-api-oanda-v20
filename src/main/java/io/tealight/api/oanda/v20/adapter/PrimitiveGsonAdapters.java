@@ -9,6 +9,7 @@ public class PrimitiveGsonAdapters {
 
     public static GsonBuilder newGsonBuilder() {
         return new GsonBuilder()
+                .registerTypeAdapter(Double.class, new DoubleAdapter())
                 .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
                 .registerTypeAdapter(Currency.class, new CurrencyAdapter());
     }
