@@ -2,6 +2,7 @@ package io.tealight.api.oanda.v20.sample;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 import com.google.gson.Gson;
 
@@ -28,7 +29,26 @@ public class InstrumentSample {
         OandaV20Api oandaV20Api = new OandaV20Api(FX_TRADE_TYPE, oandaToken);
         InstrumentEndpoints instrumentEndpoints = oandaV20Api.getInstrumentEndpoints();
 
+        ZonedDateTime to = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
+        System.out.println("+++++ Candles (Mid) n=2 to=" + to + " +++++");
         CandlesRequest candlesRequest = new CandlesRequest();
+        candlesRequest.setPrice("M");
+        candlesRequest.setGranularity(CandlestickGranularity.M15);
+        candlesRequest.setCount(2);
+        candlesRequest.setTo(to);
+
+        try {
+            CandlestickResponse candlestickResponse = instrumentEndpoints.getCandles("EUR_USD",
+                    candlesRequest);
+            System.out.println(gson.toJson(candlestickResponse));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("+++++ Candles (Mid) n=5 +++++");
+        candlesRequest = new CandlesRequest();
         candlesRequest.setPrice("M");
         candlesRequest.setGranularity(CandlestickGranularity.H4);
         candlesRequest.setCount(5);
@@ -41,6 +61,7 @@ public class InstrumentSample {
             e.printStackTrace();
         }
 
+        System.out.println("+++++ Order Book (USD/JPY) +++++");
         try {
             OrderBook orderBook = instrumentEndpoints.getOrderBook("USD_JPY", 
                     ZonedDateTime.parse("2020-08-31T04:00:00Z"));
@@ -49,6 +70,7 @@ public class InstrumentSample {
             e.printStackTrace();
         }
 
+        System.out.println("+++++ Position Book (EUR/USD) +++++");
         try {
             PositionBook positionBook = instrumentEndpoints.getPositionBook("EUR_USD",  null);
             System.out.println(gson.toJson(positionBook));
