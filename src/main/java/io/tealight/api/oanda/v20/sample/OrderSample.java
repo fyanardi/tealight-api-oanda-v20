@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import io.tealight.api.oanda.v20.FxTradeType;
 import io.tealight.api.oanda.v20.OandaV20Api;
 import io.tealight.api.oanda.v20.adapter.PrimitiveGsonAdapters;
+import io.tealight.api.oanda.v20.def.account.AccountsResponse;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsRequest;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsResponse;
 import io.tealight.api.oanda.v20.def.order.LimitOrderRequest;
@@ -17,7 +18,6 @@ import io.tealight.api.oanda.v20.def.transaction.ClientExtensions;
 import io.tealight.api.oanda.v20.endpoint.AccountEndpoints;
 import io.tealight.api.oanda.v20.endpoint.OrderEndpoints;
 import io.tealight.api.oanda.v20.endpoint.request.order.OrdersRequest;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountsResponse;
 import io.tealight.api.oanda.v20.endpoint.response.order.OrdersResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 
@@ -43,12 +43,12 @@ public class OrderSample {
 
         try {
             AccountsResponse accounts = accountEndpoints.getAccounts();
-            if (accounts.getAccounts().size() == 0) {
+            if (accounts.getAccounts().length == 0) {
                 System.err.println("No account information available");
                 return;
             }
 
-            String accountId = accounts.getAccounts().get(0).getId();
+            String accountId = accounts.getAccounts()[0].getId();
 
             System.out.println("+++++ Create order +++++");
             // Limit order 1000 units of EUR/USD @1.1000

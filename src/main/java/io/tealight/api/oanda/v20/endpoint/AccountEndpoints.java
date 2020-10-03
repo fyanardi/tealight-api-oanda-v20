@@ -8,13 +8,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import io.tealight.api.oanda.v20.FxTradeContext;
-import io.tealight.api.oanda.v20.endpoint.request.account.AccountConfigurationRequest;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountChangesResponse;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountConfigurationResponse;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountInstrumentsResponse;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountResponse;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountSummaryResponse;
-import io.tealight.api.oanda.v20.endpoint.response.account.AccountsResponse;
+import io.tealight.api.oanda.v20.def.account.AccountChangesResponse;
+import io.tealight.api.oanda.v20.def.account.AccountConfigurationRequest;
+import io.tealight.api.oanda.v20.def.account.AccountConfigurationResponse;
+import io.tealight.api.oanda.v20.def.account.AccountInstrumentsResponse;
+import io.tealight.api.oanda.v20.def.account.AccountResponse;
+import io.tealight.api.oanda.v20.def.account.AccountSummaryResponse;
+import io.tealight.api.oanda.v20.def.account.AccountsResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
 

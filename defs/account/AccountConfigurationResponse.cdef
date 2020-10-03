@@ -1,0 +1,11 @@
+{
+    # 
+    # The transaction that configures the Account.
+    # 
+    clientConfigureTransaction : (ClientConfigureTransaction),
+
+    # 
+    # The ID of the last Transaction created for the Account.
+    # 
+    lastTransactionID : (TransactionID)
+}
