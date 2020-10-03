@@ -12,11 +12,12 @@ import io.tealight.api.oanda.v20.def.order.ClientExtensionsRequest;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsResponse;
 import io.tealight.api.oanda.v20.def.order.Order;
 import io.tealight.api.oanda.v20.def.order.OrderCancelRejectResponse;
+import io.tealight.api.oanda.v20.def.order.OrderCreateRequest;
 import io.tealight.api.oanda.v20.def.order.OrderRejectResponse;
-import io.tealight.api.oanda.v20.def.order.OrderRequest;
+import io.tealight.api.oanda.v20.def.order.OrderReplaceRequest;
 import io.tealight.api.oanda.v20.def.order.OrderResponse;
-import io.tealight.api.oanda.v20.endpoint.request.order.OrdersRequest;
-import io.tealight.api.oanda.v20.endpoint.response.order.OrdersResponse;
+import io.tealight.api.oanda.v20.def.order.OrdersResponse;
+import io.tealight.api.oanda.v20.endpoint.query.order.OrdersQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
 
@@ -28,17 +29,6 @@ import io.tealight.api.oanda.v20.http.HttpMethod;
  * @author Fredy Yanardi
  */
 public class OrderEndpoints {
-
-    /*
-     * Wrapper to wrap OrderRequest object in another enclosing object under property 'order'
-     */
-    static class OrderRequestWrapper {
-        OrderRequest order;
-
-        public OrderRequestWrapper(OrderRequest orderRequest) {
-            this.order = orderRequest;
-        }
-    }
 
     private static final String ORDERS = "/v3/accounts/%s/orders";
     private static final String PENDING_ORDERS = "/v3/accounts/%s/pendingOrders";
@@ -57,19 +47,20 @@ public class OrderEndpoints {
      * Create an Order for an Account
      * 
      * @param accountId Account Identifier [required]
-     * @param orderRequest OrderRequest instance that specifies the order to be created [required]
+     * @param orderCreateRequest OrderCreateRequest instance that specifies the order to be created
+     *      [required]
      * @return details of the order created
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
-    public OrderResponse createOrder(String accountId, OrderRequest orderRequest)
+    public OrderResponse createOrder(String accountId, OrderCreateRequest orderCreateRequest)
             throws FxTradeException, IOException {
         Objects.requireNonNull(accountId);
-        Objects.requireNonNull(orderRequest);
+        Objects.requireNonNull(orderCreateRequest);
 
         String endpoint = String.format(ORDERS, accountId);
         return fxTradeContext.requestEndpoint(endpoint, OrderResponse.class, HttpMethod.POST,
-                null, new OrderRequestWrapper(orderRequest), (httpResponseCode) -> {
+                null, orderCreateRequest, (httpResponseCode) -> {
                     return OrderRejectResponse.class;
                 });
     }
@@ -78,18 +69,18 @@ public class OrderEndpoints {
      * Get a list of Orders for an Account
      *
      * @param accountId Account Identifier [required]
-     * @param ordersRequest OrdersRequest instance that specifies the orders to be retrieved
+     * @param ordersQuery OrdersQuery instance that specifies the orders to be retrieved
      * @return the list of Orders for an Account
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
-    public OrdersResponse getOrders(String accountId, OrdersRequest ordersRequest)
+    public OrdersResponse getOrders(String accountId, OrdersQuery ordersQuery)
             throws FxTradeException, IOException {
         Objects.requireNonNull(accountId);
 
         Map<String, String> queries = null;
-        if (ordersRequest != null) {
-            queries = FxTradeEndpointsUtils.queryFromRequestObject(ordersRequest);
+        if (ordersQuery != null) {
+            queries = FxTradeEndpointsUtils.queryFromQueryObject(ordersQuery);
         }
 
         String endpoint = String.format(ORDERS, accountId);
@@ -136,21 +127,22 @@ public class OrderEndpoints {
      * 
      * @param accountId Account Identifier [required]
      * @param orderSpecifier The Order Specifier [required]
-     * @param orderRequest OrderRequest instance that specifies the order to be created [required]
+     * @param orderReplaceRequest OrderReplaceRequest instance that specifies the order to be
+     *      created [required]
      * @return details of the order created
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
     public OrderResponse replaceOrder(String accountId, String orderSpecifier,
-            OrderRequest orderRequest) throws FxTradeException, IOException {
+            OrderReplaceRequest orderReplaceRequest) throws FxTradeException, IOException {
         Objects.requireNonNull(accountId);
         Objects.requireNonNull(orderSpecifier);
-        Objects.requireNonNull(orderRequest);
+        Objects.requireNonNull(orderReplaceRequest);
 
         String endpoint = String.format(REPLACE_ORDER, accountId, orderSpecifier);
 
         return fxTradeContext.requestEndpoint(endpoint, OrderResponse.class, HttpMethod.PUT, null,
-                new OrderRequestWrapper(orderRequest),  (httpResponseCode) -> {
+                orderReplaceRequest,  (httpResponseCode) -> {
                     if (httpResponseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                         return OrderRejectResponse.class;
                     }

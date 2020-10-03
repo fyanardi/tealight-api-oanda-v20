@@ -12,13 +12,15 @@ import io.tealight.api.oanda.v20.def.order.ClientExtensionsRequest;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsResponse;
 import io.tealight.api.oanda.v20.def.order.LimitOrderRequest;
 import io.tealight.api.oanda.v20.def.order.Order;
+import io.tealight.api.oanda.v20.def.order.OrderCreateRequest;
+import io.tealight.api.oanda.v20.def.order.OrderReplaceRequest;
 import io.tealight.api.oanda.v20.def.order.OrderResponse;
 import io.tealight.api.oanda.v20.def.order.OrderStateFilter;
+import io.tealight.api.oanda.v20.def.order.OrdersResponse;
 import io.tealight.api.oanda.v20.def.transaction.ClientExtensions;
 import io.tealight.api.oanda.v20.endpoint.AccountEndpoints;
 import io.tealight.api.oanda.v20.endpoint.OrderEndpoints;
-import io.tealight.api.oanda.v20.endpoint.request.order.OrdersRequest;
-import io.tealight.api.oanda.v20.endpoint.response.order.OrdersResponse;
+import io.tealight.api.oanda.v20.endpoint.query.order.OrdersQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 
 /**
@@ -51,13 +53,17 @@ public class OrderSample {
             String accountId = accounts.getAccounts()[0].getId();
 
             System.out.println("+++++ Create order +++++");
+            OrderCreateRequest orderCreateRequest = new OrderCreateRequest();
+
             // Limit order 1000 units of EUR/USD @1.1000
             LimitOrderRequest limitOrderRequest = new LimitOrderRequest();
             limitOrderRequest.setInstrument("EUR_USD");
             limitOrderRequest.setUnits(1000.0);
             limitOrderRequest.setPrice(1.1000);
 
-            OrderResponse orderResponse = orderEndpoints.createOrder(accountId, limitOrderRequest);
+            orderCreateRequest.setOrder(limitOrderRequest);
+
+            OrderResponse orderResponse = orderEndpoints.createOrder(accountId, orderCreateRequest);
             System.out.println("Replace order response:");
             System.out.println(gson.toJson(orderResponse));
             System.out.println();
@@ -67,7 +73,7 @@ public class OrderSample {
 
             // Get all orders with state "FILLED"
             System.out.println("+++++ Get orders with state 'FILLED' +++++");
-            OrdersRequest ordersRequest = new OrdersRequest();
+            OrdersQuery ordersRequest = new OrdersQuery();
             ordersRequest.setState(OrderStateFilter.FILLED);
 
             System.out.println("Get orders response");
@@ -84,13 +90,17 @@ public class OrderSample {
 
             // Cancel the newly created order and create a new one @1.000
             System.out.println("+++++ Replacing order: " + newOrderId + " +++++");
+            OrderReplaceRequest orderReplaceRequest = new OrderReplaceRequest();
+
             LimitOrderRequest newLimitOrderRequest = new LimitOrderRequest();
             newLimitOrderRequest.setInstrument("EUR_USD");
             newLimitOrderRequest.setUnits(1000.0);
             newLimitOrderRequest.setPrice(1.0000);
 
+            orderReplaceRequest.setOrder(newLimitOrderRequest);
+
             OrderResponse replaceOrderResponse = orderEndpoints.replaceOrder(accountId, newOrderId,
-                    newLimitOrderRequest);
+                    orderReplaceRequest);
 
             System.out.println("Replace order response:");
             System.out.println(gson.toJson(replaceOrderResponse));

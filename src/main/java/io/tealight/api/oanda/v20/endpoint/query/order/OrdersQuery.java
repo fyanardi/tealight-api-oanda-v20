@@ -1,10 +1,10 @@
-package io.tealight.api.oanda.v20.endpoint.request.order;
+package io.tealight.api.oanda.v20.endpoint.query.order;
 
 import java.util.List;
 
 import io.tealight.api.oanda.v20.def.order.OrderStateFilter;
 
-public class OrdersRequest {
+public class OrdersQuery {
 
     /**
      * List of Order IDs to retrieve

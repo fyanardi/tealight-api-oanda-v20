@@ -14,7 +14,7 @@ import io.tealight.api.oanda.v20.def.instrument.CandlestickResponse;
 import io.tealight.api.oanda.v20.def.instrument.OrderBook;
 import io.tealight.api.oanda.v20.def.instrument.PositionBook;
 import io.tealight.api.oanda.v20.endpoint.InstrumentEndpoints;
-import io.tealight.api.oanda.v20.endpoint.request.instrument.CandlesRequest;
+import io.tealight.api.oanda.v20.endpoint.query.instrument.CandlesQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 
 public class InstrumentSample {
@@ -32,7 +32,7 @@ public class InstrumentSample {
         ZonedDateTime to = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
         System.out.println("+++++ Candles (Mid) n=2 to=" + to + " +++++");
-        CandlesRequest candlesRequest = new CandlesRequest();
+        CandlesQuery candlesRequest = new CandlesQuery();
         candlesRequest.setPrice("M");
         candlesRequest.setGranularity(CandlestickGranularity.M15);
         candlesRequest.setCount(2);
@@ -48,7 +48,7 @@ public class InstrumentSample {
         }
 
         System.out.println("+++++ Candles (Mid) n=5 +++++");
-        candlesRequest = new CandlesRequest();
+        candlesRequest = new CandlesQuery();
         candlesRequest.setPrice("M");
         candlesRequest.setGranularity(CandlestickGranularity.H4);
         candlesRequest.setCount(5);

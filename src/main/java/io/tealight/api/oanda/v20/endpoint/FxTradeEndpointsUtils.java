@@ -17,7 +17,7 @@ public class FxTradeEndpointsUtils {
      * @param request the POJO request object
      * @return a map of query parameters (name, value) of the request object
      */
-    public static Map<String, String> queryFromRequestObject(Object request) {
+    public static Map<String, String> queryFromQueryObject(Object request) {
         Map<String, String> query = new HashMap<>();
 
         for (Field field : request.getClass().getDeclaredFields()) {

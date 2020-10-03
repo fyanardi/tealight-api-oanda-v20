@@ -10,7 +10,7 @@ import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.instrument.CandlestickResponse;
 import io.tealight.api.oanda.v20.def.instrument.OrderBook;
 import io.tealight.api.oanda.v20.def.instrument.PositionBook;
-import io.tealight.api.oanda.v20.endpoint.request.instrument.CandlesRequest;
+import io.tealight.api.oanda.v20.endpoint.query.instrument.CandlesQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
 
@@ -38,18 +38,18 @@ public class InstrumentEndpoints {
      * Fetch candlestick data for an instrument.
      * 
      * @param instrument instrument whose candlestick data to be fetched
-     * @param candlesRequest fetch candlestick data request
+     * @param candlesQuery fetch candlestick data query
      * @return candlestick response for the specified instrument according to the request data
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
-    public CandlestickResponse getCandles(String instrument, CandlesRequest candlesRequest)
+    public CandlestickResponse getCandles(String instrument, CandlesQuery candlesQuery)
             throws FxTradeException, IOException {
         Objects.requireNonNull(instrument);
 
         String endpoint = String.format(CANDLES, instrument);
 
-        Map<String, String> query = FxTradeEndpointsUtils.queryFromRequestObject(candlesRequest);
+        Map<String, String> query = FxTradeEndpointsUtils.queryFromQueryObject(candlesQuery);
         return fxTradeContext.requestEndpoint(endpoint, CandlestickResponse.class, HttpMethod.GET,
                 query, null, null);
     }

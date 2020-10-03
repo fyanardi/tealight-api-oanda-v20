@@ -1,11 +1,11 @@
-package io.tealight.api.oanda.v20.endpoint.request.instrument;
+package io.tealight.api.oanda.v20.endpoint.query.instrument;
 
 import java.time.ZonedDateTime;
 
 import io.tealight.api.oanda.v20.def.instrument.CandlestickGranularity;
 import io.tealight.api.oanda.v20.def.instrument.WeeklyAlignment;
 
-public class CandlesRequest {
+public class CandlesQuery {
 
     /**
      * The Price component(s) to get candlestick data for. [default=M]

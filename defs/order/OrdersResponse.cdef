@@ -1,0 +1,11 @@
+{
+    # 
+    # The list of Order detail objects
+    # 
+    orders : (Array[Order]),
+
+    # 
+    # The ID of the most recent Transaction created for the Account
+    # 
+    lastTransactionID : (TransactionID)
+}
