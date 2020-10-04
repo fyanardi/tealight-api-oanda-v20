@@ -76,7 +76,8 @@ JAVA_CLASS_INHERITANCE= {
         'DividendAdjustmentTransaction', 'ResetResettablePLTransaction'
     ],
     'ErrorResponse': [
-        'OrderRejectResponse', 'OrderCancelRejectResponse', 'ClientExtensionsRejectResponse'
+        'OrderRejectResponse', 'OrderCancelRejectResponse', 'ClientExtensionsRejectResponse',
+        'PositionCloseRejectResponse'
     ]
 }
 
