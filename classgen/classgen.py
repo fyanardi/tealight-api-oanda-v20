@@ -94,6 +94,8 @@ def gen_class(name, package, props, parent=None, parent_members=None):
     # member variables, each entry is a tuple of (name, type)
     members = []
 
+    import_gson = False
+
     unknown_types = set()
 
     for prop in props:
@@ -123,6 +125,9 @@ def gen_class(name, package, props, parent=None, parent_members=None):
             # prop[2] is the default value (if any)
             members.append((prop[0], m_type[0], prop[2]))
 
+        if prop[0] in JAVA_RESERVED:
+            import_gson = True
+
     if parent:
         # Need to import parent class if it is in different package
         parent_package = TYPE_MAP[parent][1]
@@ -131,6 +136,10 @@ def gen_class(name, package, props, parent=None, parent_members=None):
 
     lines = []
     lines.append("package {};".format(package))
+
+    if import_gson:
+        lines.append("")
+        lines.append("import com.google.gson.annotations.SerializedName;")
 
     imported = []
     if imports:
@@ -165,6 +174,8 @@ def gen_class(name, package, props, parent=None, parent_members=None):
         # there are some definitions with attributes 'long' and 'short', which are java reserved
         # words
         if var_name in JAVA_RESERVED:
+            # Need to tell GSON that the serialized name is different than Java field name
+            lines.append("    @SerializedName(\"{}\")".format(var_name))
             var_name = '_' + var_name
 
         if member[2]:

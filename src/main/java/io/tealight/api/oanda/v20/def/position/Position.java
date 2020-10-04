@@ -1,5 +1,7 @@
-// This Java source file was generated on 2020-09-09 10:37:57 (Malay Peninsula Standard Time)
+// This Java source file was generated on 2020-10-04 14:26:11 (Malay Peninsula Standard Time)
 package io.tealight.api.oanda.v20.def.position;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Position {
     private String instrument;
@@ -11,7 +13,9 @@ public class Position {
     private Double commission;
     private Double dividendAdjustment;
     private Double guaranteedExecutionFees;
+    @SerializedName("long")
     private PositionSide _long;
+    @SerializedName("short")
     private PositionSide _short;
 
     public String getInstrument() {
