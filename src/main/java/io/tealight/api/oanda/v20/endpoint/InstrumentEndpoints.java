@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.instrument.CandlestickResponse;
 import io.tealight.api.oanda.v20.def.instrument.OrderBook;
@@ -49,38 +50,56 @@ public class InstrumentEndpoints {
 
         String endpoint = String.format(CANDLES, instrument);
 
-        Map<String, String> query = FxTradeEndpointsUtils.queryFromQueryObject(candlesQuery);
-        return fxTradeContext.requestEndpoint(endpoint, CandlestickResponse.class, HttpMethod.GET,
-                query, null, null);
+        Map<String, String> queries = FxTradeEndpointsUtils.queryFromQueryObject(candlesQuery);
+
+        EndpointRequest<CandlestickResponse> endpointRequest =
+                new EndpointRequest.Builder<CandlestickResponse>(CandlestickResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     public OrderBook getOrderBook(String instrument, ZonedDateTime time)
             throws FxTradeException, IOException {
         Objects.requireNonNull(instrument);
 
-        Map<String, String> query = null;
+        Map<String, String> queries = null;
         if (time != null) {
-            query = new HashMap<>();
-            query.put("time", FxTradeEndpointsUtils.toUtcZonedDateTime(time).toString());
+            queries = new HashMap<>();
+            queries.put("time", FxTradeEndpointsUtils.toUtcZonedDateTime(time).toString());
         }
 
         String endpoint = String.format(ORDER_BOOK, instrument);
-        return fxTradeContext.requestEndpoint(endpoint, OrderBook.class, HttpMethod.GET, query,
-                null, null);
+
+        EndpointRequest<OrderBook> endpointRequest =
+                new EndpointRequest.Builder<OrderBook>(OrderBook.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     public PositionBook getPositionBook(String instrument, ZonedDateTime time)
             throws FxTradeException, IOException {
         Objects.requireNonNull(instrument);
 
-        Map<String, String> query = null;
+        Map<String, String> queries = null;
         if (time != null) {
-            query = new HashMap<>();
-            query.put("time", FxTradeEndpointsUtils.toUtcZonedDateTime(time).toString());
+            queries = new HashMap<>();
+            queries.put("time", FxTradeEndpointsUtils.toUtcZonedDateTime(time).toString());
         }
 
         String endpoint = String.format(POSITION_BOOK, instrument);
-        return fxTradeContext.requestEndpoint(endpoint, PositionBook.class, HttpMethod.GET, query,
-                null, null);
+
+        EndpointRequest<PositionBook> endpointRequest =
+                new EndpointRequest.Builder<PositionBook>(PositionBook.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 }

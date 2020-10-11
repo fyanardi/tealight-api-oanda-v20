@@ -13,6 +13,8 @@ import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
@@ -59,10 +61,19 @@ public class DefaultFxTradeContext implements FxTradeContext {
     }
 
     @Override
-    public <T> T requestEndpoint(String endpoint, Class<T> responseType, HttpMethod httpMethod, 
-            Map<String, String> queries, Object request,
-            IntFunction<Class<? extends ErrorResponse>> errorResponseFunction) 
-                    throws FxTradeException, IOException {
+    public <T> T requestEndpoint(String endpoint, EndpointRequest<T> endpointRequest)
+            throws FxTradeException, IOException {
+        Objects.requireNonNull(endpoint);
+        Objects.requireNonNull(endpointRequest);
+
+        Class<T> responseType = endpointRequest.getResponseType();
+        HttpMethod httpMethod = endpointRequest.getHttpMethod();
+        Map<String, String> queries = endpointRequest.getQueries();
+        Object request = endpointRequest.getRequest();
+        IntFunction<Class<? extends ErrorResponse>> errorResponseFunction =
+                endpointRequest.getErrorResponseFunction();
+        BiConsumer<String, String> headerFunction = endpointRequest.getHeaderFunction();
+
         URI url;
         try {
             if (queries != null) {
@@ -103,9 +114,18 @@ public class DefaultFxTradeContext implements FxTradeContext {
 
             HttpResponse<String> response = httpClient.send(httpRequestBuilder.build(),
                     BodyHandlers.ofString());
+
+            if (headerFunction != null) {
+                response.headers().map().forEach(
+                        (key, values) -> values.forEach(
+                                value -> headerFunction.accept(key, value)
+                                )
+                        );
+            }
+
             String responseBody = response.body();
+
             if (statusResponseSuccess(response.statusCode())) {
-                // System.out.println(responseBody);
                 return gson.fromJson(responseBody, responseType);
             }
             else {
@@ -145,7 +165,12 @@ public class DefaultFxTradeContext implements FxTradeContext {
     @Override
     public synchronized <T> T requestEndpoint(String endpoint, Class<T> responseType)
             throws FxTradeException, IOException {
-        return requestEndpoint(endpoint, responseType, HttpMethod.GET, null, null, null);
+        Objects.requireNonNull(endpoint);
+        Objects.requireNonNull(responseType);
+
+        EndpointRequest<T> endpointRequest = new EndpointRequest.Builder<T>(responseType)
+                .httpMethod(HttpMethod.GET).build();
+        return requestEndpoint(endpoint, endpointRequest);
     }
 
     private boolean statusResponseSuccess(int httpResponseCode) {

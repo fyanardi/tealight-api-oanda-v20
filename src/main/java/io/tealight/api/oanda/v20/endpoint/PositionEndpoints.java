@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Objects;
 
+import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.def.position.PositionCloseRejectResponse;
@@ -108,14 +109,20 @@ public class PositionEndpoints {
 
         String endpoint = String.format(CLOSE_POSITIONS, accountId, instrument);
 
-        return fxTradeContext.requestEndpoint(endpoint, PositionCloseResponse.class, HttpMethod.PUT,
-                null, positionCloseRequest,  (httpResponseCode) -> {
-                    if (httpResponseCode == HttpURLConnection.HTTP_BAD_REQUEST ||
-                            httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                        return PositionCloseRejectResponse.class;
-                    }
-                    return ErrorResponse.class;
-                });
+        EndpointRequest<PositionCloseResponse> endpointRequest =
+                new EndpointRequest.Builder<PositionCloseResponse>(PositionCloseResponse.class)
+                    .httpMethod(HttpMethod.PUT)
+                    .request(positionCloseRequest)
+                    .errorResponseFunction((httpResponseCode) -> {
+                        if (httpResponseCode == HttpURLConnection.HTTP_BAD_REQUEST ||
+                                httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                            return PositionCloseRejectResponse.class;
+                        }
+                        return ErrorResponse.class;
+                    })
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
 }

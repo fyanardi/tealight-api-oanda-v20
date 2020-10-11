@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.transaction.TransactionFilter;
 import io.tealight.api.oanda.v20.def.transaction.TransactionPagesResponse;
@@ -84,8 +85,13 @@ public class TransactionEndpoints {
             queries.put("type", toTransactionFiltersString(type));
         }
 
-        return fxTradeContext.requestEndpoint(endpoint, TransactionPagesResponse.class,
-                HttpMethod.GET, !queries.isEmpty() ? queries : null, null, null);
+        EndpointRequest<TransactionPagesResponse> endpointRequest =
+                new EndpointRequest.Builder<TransactionPagesResponse>(TransactionPagesResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(!queries.isEmpty() ? queries : null)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -131,8 +137,13 @@ public class TransactionEndpoints {
             queries.put("type", toTransactionFiltersString(type));
         }
 
-        return fxTradeContext.requestEndpoint(endpoint, TransactionsResponse.class, HttpMethod.GET,
-                queries, null, null);
+        EndpointRequest<TransactionsResponse> endpointRequest =
+                new EndpointRequest.Builder<TransactionsResponse>(TransactionsResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -159,8 +170,13 @@ public class TransactionEndpoints {
             queries.put("type", toTransactionFiltersString(type));
         }
 
-        return fxTradeContext.requestEndpoint(endpoint, TransactionsResponse.class, HttpMethod.GET,
-                queries, null, null);
+        EndpointRequest<TransactionsResponse> endpointRequest =
+                new EndpointRequest.Builder<TransactionsResponse>(TransactionsResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**

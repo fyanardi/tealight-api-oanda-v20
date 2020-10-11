@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.account.AccountChangesResponse;
 import io.tealight.api.oanda.v20.def.account.AccountConfigurationRequest;
@@ -75,9 +76,16 @@ public class AccountEndpoints {
             queries = new LinkedHashMap<>();
             queries.put("instruments", instruments.stream().collect(Collectors.joining(",")));
         }
+
         String endpoint = String.format(ACCOUNT_INSTRUMENTS, accountId);
-        return fxTradeContext.requestEndpoint(endpoint, AccountInstrumentsResponse.class,
-                HttpMethod.GET, queries, null, null);
+
+        EndpointRequest<AccountInstrumentsResponse> endpointRequest =
+                new EndpointRequest.Builder<AccountInstrumentsResponse>(AccountInstrumentsResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     public AccountConfigurationResponse setAccountConfiguration(String accountId,
@@ -87,8 +95,13 @@ public class AccountEndpoints {
 
         String endpoint = String.format(ACCOUNT_CONFIGURATION, accountId);
 
-        return fxTradeContext.requestEndpoint(endpoint, AccountConfigurationResponse.class,
-                HttpMethod.PATCH, null, accountConfigurationRequest, null);
+        EndpointRequest<AccountConfigurationResponse> endpointRequest =
+                new EndpointRequest.Builder<AccountConfigurationResponse>(AccountConfigurationResponse.class)
+                    .httpMethod(HttpMethod.PATCH)
+                    .request(accountConfigurationRequest)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     public AccountChangesResponse getAccountChanges(String accountId, String sinceTransactionId) 
@@ -100,8 +113,14 @@ public class AccountEndpoints {
         queries.put("sinceTransactionID", sinceTransactionId);
 
         String endpoint = String.format(ACCOUNT_CHANGES, accountId);
-        return fxTradeContext.requestEndpoint(endpoint, AccountChangesResponse.class,
-                HttpMethod.GET, queries, null, null);
+
+        EndpointRequest<AccountChangesResponse> endpointRequest =
+                new EndpointRequest.Builder<AccountChangesResponse>(AccountChangesResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
 }

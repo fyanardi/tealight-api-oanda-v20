@@ -1,12 +1,8 @@
 package io.tealight.api.oanda.v20;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.function.IntFunction;
 
-import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
-import io.tealight.api.oanda.v20.http.HttpMethod;
 
 /**
  * Interface for FxTradeContext. An FxTradeContext implementation is responsible for making the
@@ -19,28 +15,23 @@ import io.tealight.api.oanda.v20.http.HttpMethod;
 public interface FxTradeContext {
 
     /**
-     * Make a request to an OANDA fxTrade endpoint
+     * Make a request to an OANDA fxTrade endpoint with request specified in the endpoint request
+     * parameter.
      *
      * @param <T> type of the response
      * @param endpoint the endpoint path
-     * @param responseType Java type of the response
-     * @param httpMethod HTTP method to be used for the request to the fxTrade server
-     * @param queries a map of query parameters to be appended to the HTTP request as query string
-     * @param request request object that will be sent in the request body 
-     * @param errorResponseFunction an optional function that returns the type of the error response
-     *      depending on the http response code returned by the server
+     * @param endpointRequest EndpointRequest instance that specifies how the request should be
+     *      performed
      * @return the response received from the fxTrade endpoint
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
-    public <T> T requestEndpoint(String endpoint, Class<T> responseType, HttpMethod httpMethod,
-            Map<String, String> queries, Object request,
-            IntFunction<Class<? extends ErrorResponse>> errorResponseFunction)
-                    throws FxTradeException, IOException;
+    public <T> T requestEndpoint(String endpoint, EndpointRequest<T> endpointRequest)
+            throws FxTradeException, IOException;
 
     /**
-     * Overloaded method. Make a request to an OANDA fxTrade endpoint with GET HTTP method, no
-     * query parameters and no request body.
+     * Make a request to an OANDA fxTrade endpoint with GET HTTP method, no query parameters and no
+     * request body.
      *
      * @param <T> type of the response
      * @param endpoint the endpoint path

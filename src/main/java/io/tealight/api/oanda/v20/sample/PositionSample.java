@@ -65,8 +65,8 @@ public class PositionSample {
             positionCloseRequest.setLongUnits("NONE");
             positionCloseRequest.setShortUnits("100");
 
-            PositionCloseResponse positionCloseResponse = positionEndpoints.closePosition(accountId, "EUR_USD",
-                    positionCloseRequest);
+            PositionCloseResponse positionCloseResponse = positionEndpoints.closePosition(accountId,
+                    "EUR_USD", positionCloseRequest);
             System.out.println(gson.toJson(positionCloseResponse));
             System.out.println();
         }

@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.Objects;
 
+import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsRejectResponse;
@@ -59,10 +60,17 @@ public class OrderEndpoints {
         Objects.requireNonNull(orderCreateRequest);
 
         String endpoint = String.format(ORDERS, accountId);
-        return fxTradeContext.requestEndpoint(endpoint, OrderResponse.class, HttpMethod.POST,
-                null, orderCreateRequest, (httpResponseCode) -> {
-                    return OrderRejectResponse.class;
-                });
+
+        EndpointRequest<OrderResponse> endpointRequest =
+                new EndpointRequest.Builder<OrderResponse>(OrderResponse.class)
+                    .httpMethod(HttpMethod.POST)
+                    .request(orderCreateRequest)
+                    .errorResponseFunction((httpResponseCode) -> {
+                        return OrderRejectResponse.class;
+                    })
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -85,8 +93,13 @@ public class OrderEndpoints {
 
         String endpoint = String.format(ORDERS, accountId);
 
-        return fxTradeContext.requestEndpoint(endpoint, OrdersResponse.class, HttpMethod.GET,
-                queries, null, null);
+        EndpointRequest<OrdersResponse> endpointRequest =
+                new EndpointRequest.Builder<OrdersResponse>(OrdersResponse.class)
+                    .httpMethod(HttpMethod.GET)
+                    .queries(queries)
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -141,16 +154,22 @@ public class OrderEndpoints {
 
         String endpoint = String.format(REPLACE_ORDER, accountId, orderSpecifier);
 
-        return fxTradeContext.requestEndpoint(endpoint, OrderResponse.class, HttpMethod.PUT, null,
-                orderReplaceRequest,  (httpResponseCode) -> {
-                    if (httpResponseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                        return OrderRejectResponse.class;
-                    }
-                    else if (httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                        return OrderCancelRejectResponse.class;
-                    }
-                    return ErrorResponse.class;
-                });
+        EndpointRequest<OrderResponse> endpointRequest =
+                new EndpointRequest.Builder<OrderResponse>(OrderResponse.class)
+                    .httpMethod(HttpMethod.PUT)
+                    .request(orderReplaceRequest)
+                    .errorResponseFunction((httpResponseCode) -> {
+                        if (httpResponseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+                            return OrderRejectResponse.class;
+                        }
+                        else if (httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                            return OrderCancelRejectResponse.class;
+                        }
+                        return ErrorResponse.class;
+                    })
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -168,13 +187,19 @@ public class OrderEndpoints {
         Objects.requireNonNull(orderSpecifier);
 
         String endpoint = String.format(CANCEL_ORDER, accountId, orderSpecifier);
-        return fxTradeContext.requestEndpoint(endpoint, OrderResponse.class, HttpMethod.PUT, null,
-                null, (httpResponseCode) -> {
-                    if (httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                        return OrderCancelRejectResponse.class;
-                    }
-                    return ErrorResponse.class;
-                });
+
+        EndpointRequest<OrderResponse> endpointRequest =
+                new EndpointRequest.Builder<OrderResponse>(OrderResponse.class)
+                    .httpMethod(HttpMethod.PUT)
+                    .errorResponseFunction((httpResponseCode) -> {
+                        if (httpResponseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                            return OrderCancelRejectResponse.class;
+                        }
+                        return ErrorResponse.class;
+                    })
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 
     /**
@@ -195,9 +220,16 @@ public class OrderEndpoints {
         Objects.requireNonNull(clientExtensionsRequest);
 
         String endpoint = String.format(CLIENT_EXTENSIONS, accountId, orderSpecifier);
-        return fxTradeContext.requestEndpoint(endpoint, ClientExtensionsResponse.class, HttpMethod.PUT,
-                null, clientExtensionsRequest, (httpResponseCode) -> {
-                    return ClientExtensionsRejectResponse.class;
-                });
+
+        EndpointRequest<ClientExtensionsResponse> endpointRequest =
+                new EndpointRequest.Builder<ClientExtensionsResponse>(ClientExtensionsResponse.class)
+                    .httpMethod(HttpMethod.PUT)
+                    .request(clientExtensionsRequest)
+                    .errorResponseFunction((httpResponseCode) -> {
+                        return ClientExtensionsRejectResponse.class;
+                    })
+                    .build();
+
+        return fxTradeContext.requestEndpoint(endpoint, endpointRequest);
     }
 }
