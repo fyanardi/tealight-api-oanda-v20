@@ -76,7 +76,7 @@ public class DefaultFxTradeContext implements FxTradeContext {
                 endpointRequest.getErrorResponseFunction();
         BiConsumer<String, String> headerFunction = endpointRequest.getHeaderFunction();
 
-        URI url;
+        URI uri;
         try {
             if (queries != null) {
                 String queryParameters = queries.entrySet().stream().map(entry -> {
@@ -91,16 +91,16 @@ public class DefaultFxTradeContext implements FxTradeContext {
                     }
                     return param.toString();
                 }).collect(Collectors.joining("&"));
-                url = new URI(fxTradeUrl + endpoint + "?" + queryParameters);
+                uri = new URI(fxTradeUrl + endpoint + "?" + queryParameters);
             }
             else {
-                url = new URI(fxTradeUrl + endpoint);
+                uri = new URI(fxTradeUrl + endpoint);
             }
 
             HttpClient httpClient = HttpClient.newBuilder().build();
 
             Builder httpRequestBuilder = HttpRequest.newBuilder()
-                    .uri(url)
+                    .uri(uri)
                     .setHeader("Content-Type", "application/json")
                     .setHeader("Authorization", "Bearer " + token)
                     .setHeader("Accept-Datetime-Format", ACCEPT_DATETIME_FORMAT.toString());
@@ -176,16 +176,16 @@ public class DefaultFxTradeContext implements FxTradeContext {
     }
 
     @Override
-    public <T> T requestEndpoint(URI endpointUrl, Class<T> responseType,
+    public <T> T requestEndpoint(URI endpointUri, Class<T> responseType,
             BiConsumer<String, String> headerFunction) throws FxTradeException, IOException {
-        Objects.requireNonNull(endpointUrl);
+        Objects.requireNonNull(endpointUri);
         Objects.requireNonNull(responseType);
 
         try {
             HttpClient httpClient = HttpClient.newBuilder().build();
 
             Builder httpRequestBuilder = HttpRequest.newBuilder()
-                    .uri(endpointUrl)
+                    .uri(endpointUri)
                     .setHeader("Content-Type", "application/json")
                     .setHeader("Authorization", "Bearer " + token)
                     .setHeader("Accept-Datetime-Format", ACCEPT_DATETIME_FORMAT.toString());

@@ -60,7 +60,7 @@ public interface FxTradeContext {
      * @throws FxTradeException thrown if the request to the fxTrade server is not successful
      * @throws IOException thrown if I/O Exception occurs during the request
      */
-    public <T> T requestEndpoint(URI endpointUrl, Class<T> responseType,
+    public <T> T requestEndpoint(URI endpointUri, Class<T> responseType,
             BiConsumer<String, String> headerFunction)
             throws FxTradeException, IOException;
 }

@@ -139,6 +139,7 @@ public class EndpointRequest<T> {
         /**
          * Set the HTTP method to be used for the request to the fxTrade server
          *
+         * @param httpMethod the HTTP method to be used for this request
          * @return this Builder instance
          */
         public Builder<T> httpMethod(HttpMethod httpMethod) {
@@ -149,6 +150,7 @@ public class EndpointRequest<T> {
         /**
          * Set the map of query parameters to be appended to the HTTP request as query string
          *
+         * @param queries a map of query parameters to be appended to the HTTP request as query string
          * @return this Builder instance
          */
         public Builder<T> queries(Map<String, String> queries) {
@@ -159,6 +161,7 @@ public class EndpointRequest<T> {
         /**
          * Set the request object that will be sent in the request body
          *
+         * @param request the request object that will be sent in the request body
          * @return this Builder instance
          */
         public Builder<T> request(Object request) {
@@ -167,9 +170,11 @@ public class EndpointRequest<T> {
         }
 
         /**
-         * Set the function that returns the type of the error response depending on the http response code
-         * returned by the server
+         * Set the function that returns the type of the error response depending on the http
+         * response code returned by the server
          *
+         * @param errorResponseFunction a function that returns the type of the error response
+         *      depending on the http response code returned by the server
          * @return this Builder instance
          */
         public Builder<T> errorResponseFunction(
@@ -180,7 +185,9 @@ public class EndpointRequest<T> {
 
         /**
          * Set the function that processes every pair of response header returned by the server
-         * 
+         *
+         * @param headerFunction a function that processes every pair of response header returned by
+         *      the server
          * @return this Builder instance
          */
         public Builder<T> headerFunction(BiConsumer<String, String> headerFunction) {
