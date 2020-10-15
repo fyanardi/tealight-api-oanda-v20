@@ -7,8 +7,19 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class FxTradeEndpointsUtils {
+
+    /**
+     * Link response header
+     */
+    public static final String LINK_RESPONSE_HEADER = "Link";
+
+    /**
+     * Regex to extract the URI from the link header value
+     */
+    public static final Pattern LINK_HEADER_VALUE_REGEX = Pattern.compile("^<(.*)>; *rel=\"(.*)\"$");
 
     /**
      * Build a map of query parameters (name, value) based on the fields of the passed in request

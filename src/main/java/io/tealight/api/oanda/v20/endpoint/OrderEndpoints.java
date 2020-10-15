@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.Objects;
 
-import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.def.order.ClientExtensionsRejectResponse;
@@ -21,6 +20,7 @@ import io.tealight.api.oanda.v20.def.order.OrdersResponse;
 import io.tealight.api.oanda.v20.endpoint.query.order.OrdersQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
+import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
 /**
  * Order endpoints

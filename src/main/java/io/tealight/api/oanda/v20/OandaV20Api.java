@@ -4,7 +4,9 @@ import io.tealight.api.oanda.v20.endpoint.AccountEndpoints;
 import io.tealight.api.oanda.v20.endpoint.InstrumentEndpoints;
 import io.tealight.api.oanda.v20.endpoint.OrderEndpoints;
 import io.tealight.api.oanda.v20.endpoint.PositionEndpoints;
+import io.tealight.api.oanda.v20.endpoint.TradeEndpoints;
 import io.tealight.api.oanda.v20.endpoint.TransactionEndpoints;
+import io.tealight.api.oanda.v20.internal.DefaultFxTradeContext;
 
 /**
  * Java wrapper for OANDA fxTrade v20 APIs
@@ -21,6 +23,7 @@ public class OandaV20Api {
     private OrderEndpoints orderEndpoints;
     private TransactionEndpoints transactionEndpoints;
     private PositionEndpoints positionEndpoints;
+    private TradeEndpoints tradeEndpoints;
 
     public OandaV20Api(FxTradeType fxTradeType, String token) {
         this.fxTradeContext = new DefaultFxTradeContext(fxTradeType, token);
@@ -84,5 +87,17 @@ public class OandaV20Api {
             positionEndpoints = new PositionEndpoints(fxTradeContext);
         }
         return positionEndpoints;
+    }
+
+    /**
+     * Get the trade endpoints
+     *
+     * @return the trade endpoints
+     */
+    public TradeEndpoints getTradeEndpoints() {
+        if (tradeEndpoints == null) {
+            tradeEndpoints = new TradeEndpoints(fxTradeContext);
+        }
+        return tradeEndpoints;
     }
 }

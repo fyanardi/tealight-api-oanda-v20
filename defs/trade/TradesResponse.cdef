@@ -1,0 +1,12 @@
+{
+    # 
+    # The list of Trade detail objects
+    # 
+    trades : (Array[Trade]),
+
+    # 
+    # The ID of the most recent Transaction created for the Account
+    # 
+    lastTransactionID : (TransactionID)
+}
+

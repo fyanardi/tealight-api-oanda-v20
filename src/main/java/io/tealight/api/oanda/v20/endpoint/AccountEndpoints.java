@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.account.AccountChangesResponse;
 import io.tealight.api.oanda.v20.def.account.AccountConfigurationRequest;
@@ -18,6 +17,7 @@ import io.tealight.api.oanda.v20.def.account.AccountSummaryResponse;
 import io.tealight.api.oanda.v20.def.account.AccountsResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
+import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
 /**
  * Account endpoints

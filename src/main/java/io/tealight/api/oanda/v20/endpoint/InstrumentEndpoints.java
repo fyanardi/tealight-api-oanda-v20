@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.instrument.CandlestickResponse;
 import io.tealight.api.oanda.v20.def.instrument.OrderBook;
@@ -14,6 +13,7 @@ import io.tealight.api.oanda.v20.def.instrument.PositionBook;
 import io.tealight.api.oanda.v20.endpoint.query.instrument.CandlesQuery;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
+import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
 /**
  * Instrument endpoints

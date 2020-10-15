@@ -1,4 +1,4 @@
-package io.tealight.api.oanda.v20;
+package io.tealight.api.oanda.v20.internal;
 
 import java.util.Map;
 import java.util.Objects;

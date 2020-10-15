@@ -1,4 +1,4 @@
-package io.tealight.api.oanda.v20;
+package io.tealight.api.oanda.v20.internal;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import io.tealight.api.oanda.v20.FxTradeContext;
+import io.tealight.api.oanda.v20.FxTradeType;
 import io.tealight.api.oanda.v20.adapter.OrderAdapter;
 import io.tealight.api.oanda.v20.adapter.PrimitiveGsonAdapters;
 import io.tealight.api.oanda.v20.adapter.TransactionAdapter;
@@ -171,6 +173,62 @@ public class DefaultFxTradeContext implements FxTradeContext {
         EndpointRequest<T> endpointRequest = new EndpointRequest.Builder<T>(responseType)
                 .httpMethod(HttpMethod.GET).build();
         return requestEndpoint(endpoint, endpointRequest);
+    }
+
+    @Override
+    public <T> T requestEndpoint(URI endpointUrl, Class<T> responseType,
+            BiConsumer<String, String> headerFunction) throws FxTradeException, IOException {
+        Objects.requireNonNull(endpointUrl);
+        Objects.requireNonNull(responseType);
+
+        try {
+            HttpClient httpClient = HttpClient.newBuilder().build();
+
+            Builder httpRequestBuilder = HttpRequest.newBuilder()
+                    .uri(endpointUrl)
+                    .setHeader("Content-Type", "application/json")
+                    .setHeader("Authorization", "Bearer " + token)
+                    .setHeader("Accept-Datetime-Format", ACCEPT_DATETIME_FORMAT.toString());
+
+            httpRequestBuilder.method(HttpMethod.GET.toString(), BodyPublishers.noBody());
+
+            HttpResponse<String> response = httpClient.send(httpRequestBuilder.build(),
+                    BodyHandlers.ofString());
+
+            if (headerFunction != null) {
+                response.headers().map().forEach(
+                        (key, values) -> values.forEach(
+                                value -> headerFunction.accept(key, value)
+                                )
+                        );
+            }
+
+            String responseBody = response.body();
+
+            if (statusResponseSuccess(response.statusCode())) {
+                return gson.fromJson(responseBody, responseType);
+            }
+            else {
+                ErrorResponse errorResponse = gson.fromJson(responseBody, ErrorResponse.class);
+
+                // If there is no error message, try to extract from 'rejectReason'
+                if (errorResponse.getErrorMessage() == null) {
+                    JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+                    if (jsonObject.has("rejectReason")) {
+                        errorResponse.setErrorMessage(jsonObject.get("rejectReason").getAsString());
+                    }
+                }
+
+                throw FxTradeException.fromHttpResponseCode(response.statusCode(), errorResponse);
+            }
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        // Treat these two exceptions as IOException for time being to simplify the API
+        catch (InterruptedException e) {
+            throw new IOException(e);
+        }
     }
 
     private boolean statusResponseSuccess(int httpResponseCode) {

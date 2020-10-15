@@ -1,0 +1,12 @@
+{
+    # 
+    # The details of the requested trade
+    # 
+    trade : (Trade),
+
+    # 
+    # The ID of the most recent Transaction created for the Account
+    # 
+    lastTransactionID : (TransactionID)
+}
+

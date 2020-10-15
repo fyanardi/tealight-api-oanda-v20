@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.transaction.TransactionFilter;
 import io.tealight.api.oanda.v20.def.transaction.TransactionPagesResponse;
@@ -20,6 +19,7 @@ import io.tealight.api.oanda.v20.def.transaction.TransactionResponse;
 import io.tealight.api.oanda.v20.def.transaction.TransactionsResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
+import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
 /**
  * Transaction endpoints

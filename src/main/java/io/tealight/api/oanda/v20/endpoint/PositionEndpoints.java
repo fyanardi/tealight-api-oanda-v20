@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Objects;
 
-import io.tealight.api.oanda.v20.EndpointRequest;
 import io.tealight.api.oanda.v20.FxTradeContext;
 import io.tealight.api.oanda.v20.def.ErrorResponse;
 import io.tealight.api.oanda.v20.def.position.PositionCloseRejectResponse;
@@ -13,6 +12,7 @@ import io.tealight.api.oanda.v20.def.position.PositionCloseResponse;
 import io.tealight.api.oanda.v20.def.position.PositionsResponse;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.http.HttpMethod;
+import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
 /**
  * Position endpoints
