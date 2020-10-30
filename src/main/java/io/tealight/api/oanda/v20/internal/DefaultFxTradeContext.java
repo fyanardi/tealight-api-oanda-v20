@@ -45,7 +45,7 @@ import io.tealight.api.oanda.v20.http.HttpMethod;
 public class DefaultFxTradeContext implements FxTradeContext {
 
     private static final String FXPRACTICE_URL = "https://api-fxpractice.oanda.com";
-    private static final String FXTRADE_URL = "  https://api-fxtrade.oanda.com";
+    private static final String FXTRADE_URL = "https://api-fxtrade.oanda.com";
 
     private static final AcceptDatetimeFormat ACCEPT_DATETIME_FORMAT = AcceptDatetimeFormat.RFC3339;
     private final String token;
