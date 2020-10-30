@@ -63,7 +63,7 @@ public class DefaultFxTradeContext implements FxTradeContext {
     }
 
     @Override
-    public <T> T requestEndpoint(String endpoint, EndpointRequest<T> endpointRequest)
+    public synchronized <T> T requestEndpoint(String endpoint, EndpointRequest<T> endpointRequest)
             throws FxTradeException, IOException {
         Objects.requireNonNull(endpoint);
         Objects.requireNonNull(endpointRequest);
@@ -176,7 +176,7 @@ public class DefaultFxTradeContext implements FxTradeContext {
     }
 
     @Override
-    public <T> T requestEndpoint(URI endpointUri, Class<T> responseType,
+    public synchronized <T> T requestEndpoint(URI endpointUri, Class<T> responseType,
             BiConsumer<String, String> headerFunction) throws FxTradeException, IOException {
         Objects.requireNonNull(endpointUri);
         Objects.requireNonNull(responseType);
