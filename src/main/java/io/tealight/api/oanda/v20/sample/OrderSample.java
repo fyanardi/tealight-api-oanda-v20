@@ -34,7 +34,7 @@ public class OrderSample {
     private static final FxTradeType FX_TRADE_TYPE = FxTradeType.FX_TRADE_PRACTICE;
 
     public static void main(String[] args) {
-        String oandaToken = System.getenv("OANDA_TOKEN");
+        String oandaToken = System.getenv("OANDA_FXPRACTICE_TOKEN");
 
         Gson gson = PrimitiveGsonAdapters.newGsonBuilder().setPrettyPrinting().create();
 

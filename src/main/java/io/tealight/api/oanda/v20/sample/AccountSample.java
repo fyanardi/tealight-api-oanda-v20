@@ -22,7 +22,7 @@ public class AccountSample {
     private static final FxTradeType FX_TRADE_TYPE = FxTradeType.FX_TRADE_PRACTICE;
 
     public static void main(String[] args) {
-        String oandaToken = System.getenv("OANDA_TOKEN");
+        String oandaToken = System.getenv("OANDA_FXPRACTICE_TOKEN");
 
         Gson gson = PrimitiveGsonAdapters.newGsonBuilder().create();
         OandaV20Api oandaV20Api = new OandaV20Api(FX_TRADE_TYPE, oandaToken);
@@ -59,6 +59,8 @@ public class AccountSample {
                 AccountChangesResponse accountStateAndChanges =
                         accountEndpoints.getAccountChanges(accountProperty.getId(), "539");
                 System.out.println("Account changes: " + gson.toJson(accountStateAndChanges));
+
+                // For simplicity just process the first account
                 break;
             }
         } catch (FxTradeException e) {
