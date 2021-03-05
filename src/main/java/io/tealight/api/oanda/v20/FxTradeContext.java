@@ -2,8 +2,12 @@ package io.tealight.api.oanda.v20;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpResponse.BodySubscriber;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
+import io.tealight.api.oanda.v20.endpoint.util.StringSubscriber;
 import io.tealight.api.oanda.v20.exception.FxTradeException;
 import io.tealight.api.oanda.v20.internal.EndpointRequest;
 
@@ -18,7 +22,7 @@ import io.tealight.api.oanda.v20.internal.EndpointRequest;
 public interface FxTradeContext {
 
     /**
-     * Make a request to an OANDA fxTrade endpoint with request specified in the endpoint request
+     * Makes a request to an OANDA fxTrade endpoint with request specified in the endpoint request
      * parameter.
      *
      * @param <T> type of the response
@@ -33,7 +37,7 @@ public interface FxTradeContext {
             throws FxTradeException, IOException;
 
     /**
-     * Make a request to an OANDA fxTrade endpoint with GET HTTP method, no query parameters and no
+     * Makes a request to an OANDA fxTrade endpoint with GET HTTP method, no query parameters and no
      * request body.
      *
      * @param <T> type of the response
@@ -47,7 +51,7 @@ public interface FxTradeContext {
             throws FxTradeException, IOException;
 
     /**
-     * Make a request to an OANDA fxTrade endpoint URI (full URI, including queries) with GET HTTP
+     * Makes a request to an OANDA fxTrade endpoint URI (full URI, including queries) with GET HTTP
      * method and no request body. This is useful to send a request following a link sent back by
      * the FxTrade server in the link response header
      *
@@ -63,4 +67,22 @@ public interface FxTradeContext {
     public <T> T requestEndpoint(URI endpointUri, Class<T> responseType,
             BiConsumer<String, String> headerFunction)
             throws FxTradeException, IOException;
+
+    /**
+     * Subscribes to a stream endpoint with HTTP GET method, queries and body subscriber. The body
+     * subscriber is responsible for initiating the flow subscription, reading each line of the
+     * stream, calling back to the stream consumer and finally canceling it when the subscription is
+     * no longer needed.
+     *
+     * @see StringSubscriber
+     *
+     * @param endpoint the stream endpoint
+     * @param queries additional query parameters
+     * @param subscriber the body subscriber
+     * @return a completable future for the string subscription
+     * @throws FxTradeException thrown if the request to the fxTrade server is not successful
+     * @throws IOException thrown if I/O Exception occurs during the request
+     */
+    public CompletableFuture<?> subscribeStream(String endpoint, Map<String, String> queries,
+            BodySubscriber<?> subscriber) throws FxTradeException, IOException;
 }

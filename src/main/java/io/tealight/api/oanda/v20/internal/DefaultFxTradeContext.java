@@ -12,8 +12,10 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.net.http.HttpResponse.BodySubscriber;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
@@ -47,15 +49,21 @@ public class DefaultFxTradeContext implements FxTradeContext {
     private static final String FXPRACTICE_URL = "https://api-fxpractice.oanda.com";
     private static final String FXTRADE_URL = "https://api-fxtrade.oanda.com";
 
+    private static final String FXPRACTICE_STREAM_URL = "https://stream-fxpractice.oanda.com";
+    private static final String FXTRADE_STREAM_URL = "https://stream-fxtrade.oanda.com";
+
     private static final AcceptDatetimeFormat ACCEPT_DATETIME_FORMAT = AcceptDatetimeFormat.RFC3339;
     private final String token;
     private final String fxTradeUrl;
+    private final String fxTradeStreamUrl;
     private Gson gson;
 
     public DefaultFxTradeContext(FxTradeType fxTradeType, String token) {
         this.token = token;
 
         this.fxTradeUrl = fxTradeType == FxTradeType.FX_TRADE ? FXTRADE_URL : FXPRACTICE_URL;
+        this.fxTradeStreamUrl = fxTradeType == FxTradeType.FX_TRADE ?
+                FXTRADE_STREAM_URL : FXPRACTICE_STREAM_URL;
         this.gson = PrimitiveGsonAdapters.newGsonBuilder()
                 .registerTypeAdapter(Order.class, new OrderAdapter())
                 .registerTypeAdapter(Transaction.class, new TransactionAdapter())
@@ -231,8 +239,55 @@ public class DefaultFxTradeContext implements FxTradeContext {
         }
     }
 
+    @Override
+    public CompletableFuture<?> subscribeStream(String endpoint, Map<String, String> queries,
+            BodySubscriber<?> subscriber) throws FxTradeException, IOException {
+        URI uri;
+        try {
+            if (queries != null) {
+                String queryParameters = queries.entrySet().stream().map(entry -> {
+                    StringBuilder param = new StringBuilder();
+                    try {
+                        param.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+                        param.append("=");
+                        param.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    }
+                    catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    return param.toString();
+                }).collect(Collectors.joining("&"));
+                uri = new URI(fxTradeStreamUrl + endpoint + "?" + queryParameters);
+            }
+            else {
+                uri = new URI(fxTradeStreamUrl + endpoint);
+            }
+        }
+        catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
+
+        Builder httpRequestBuilder = HttpRequest.newBuilder()
+                .uri(uri)
+                .setHeader("Content-Type", "application/json")
+                .setHeader("Authorization", "Bearer " + token)
+                .setHeader("Accept-Datetime-Format", ACCEPT_DATETIME_FORMAT.toString());
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = httpRequestBuilder.build();
+
+        return client.sendAsync(request, responseInfo -> subscriber)
+                .whenComplete((r, t) -> {
+                    // TODO
+                    // System.out.println("--- Status code " + r.statusCode());
+                })
+                .thenApply(HttpResponse::body);
+    }
+
     private boolean statusResponseSuccess(int httpResponseCode) {
+        // All HTTP 2xx 
         return httpResponseCode >= HttpURLConnection.HTTP_OK &&
                 httpResponseCode < HttpURLConnection.HTTP_MULT_CHOICE;
     }
+
 }
